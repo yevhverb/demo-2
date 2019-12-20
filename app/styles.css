@@ -30,7 +30,7 @@ button, input {
   backdrop-filter: blur(5px);
 }
 
-.animal-card {
+.pet-card {
   max-width: 280px;
   margin: 0 auto;
   border-radius: 20px;
@@ -38,11 +38,11 @@ button, input {
   transition: .267s;
 }
 
-.animal-card:hover {
+.pet-card:hover {
   box-shadow: 0 0.75em 3em -0.1em rgba(10,10,10,.15), 0 0 0 1px rgba(10,10,10,.02);
 }
 
-.animal-card-img {
+.pet-card-img {
   position: relative;
   width: 100%;
   height: 230px;
@@ -50,7 +50,7 @@ button, input {
   transition: .3s;
 }
 
-.animal-card-img::after {
+.pet-card-img::after {
   content: '';
   position: absolute;
   top: 0;
@@ -60,7 +60,7 @@ button, input {
   background-image: linear-gradient(to top, #ffffff, transparent 35%);
 }
 
-.animal-card-img img {
+.pet-card-img img {
   display: block;
   width: 100%;
   height: 100%;
@@ -69,8 +69,8 @@ button, input {
   border-radius: 20px;
 }
 
-.animal-card-main, 
-.animal-card-footer {
+.pet-card-main, 
+.pet-card-footer {
   position: relative;
   margin-top: -30px;
   border-radius: 20px;
