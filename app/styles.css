@@ -5,6 +5,7 @@
 
 button, input {
   font-family: inherit;
+  transition: .134s;
 }
 
 .shadow-top {
@@ -21,13 +22,27 @@ button, input {
 
 .nav {
   position: fixed;
-  bottom: 0;
+  top: 0;
   left: 0;
   right: 0;
   z-index: 99;
-  box-shadow: 0 -0.125em 1em -0.125em rgba(10,10,10,.06), 0 0 0 1px rgba(10,10,10,.06);
-  background: rgba(255, 255, 255, .95);
-  backdrop-filter: blur(5px);
+  padding: 12px 60px;
+}
+
+.search-field {
+  padding: 11px 27px;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 0 0 0.125em rgba(175,175,175,.25);
+}
+
+.search-field:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.search-field::placeholder {
+  opacity: .6;
 }
 
 .pet-card {

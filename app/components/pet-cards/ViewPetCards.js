@@ -7,16 +7,29 @@ export class ViewPetCards {
   }
 
   addListeners(splitPetsData) {
-    document.querySelector('.pag-next').addEventListener('click', () => splitPetsData(true));
-    document.querySelector('.pag-prev').addEventListener('click', () => splitPetsData(false));
+    document.querySelector('.pag-next').addEventListener('click', () => { 
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      splitPetsData(true);
+    });
+    document.querySelector('.pag-prev').addEventListener('click', () => { 
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      splitPetsData(false);
+    });
   }
 
   render(pets, pages) {
     this.cards.innerHTML = '';
 
-    const html = pets.map((pet, idx) => this.templater.getTemplatePetCard(pet, idx)).join('');
+    const html = pets.length 
+      ? pets.map((pet, idx) => this.templater.getTemplatePetCard(pet, idx)).join('') 
+      : this.templater.getTemplateNoneData();
     
     this.cards.insertAdjacentHTML('beforeend', html);
-    this.cards.insertAdjacentHTML('beforeend', this.templater.getTemplatePagination(pages));
+    
+    if (pets.length) {
+      this.cards.insertAdjacentHTML('beforeend', this.templater.getTemplatePagination(pages));
+    }
   }
 }

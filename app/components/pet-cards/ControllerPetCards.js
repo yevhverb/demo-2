@@ -2,28 +2,26 @@ import { ModelPetCards } from './ModelPetCards.js';
 import { ViewPetCards } from './ViewPetCards.js';
 
 export class ControllerPetCards {
-  constructor({ on }) {
+  constructor({ subscribe }) {
     this.model = new ModelPetCards();
     this.view = new ViewPetCards();
     
-    this.on = on;
+    this.subscribe = subscribe;
     
-    this.on('fetchedPetsData', (pets) => {
-      this.model.petsData = pets;
-      this.splitPetsData();
+    this.subscribe('onUpdatePetsData', pets => {
+      this.model.updatePetsData(pets);
+      this.handlePetsData(true);
     });
   }
 
-  splitPetsData(isMore = true) {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  handlePetsData(isMore) {   
+    this.view.render(
+      this.model.getSlicePetsData(isMore), 
+      this.model.calcPaginationPetsData()
+    );
 
-    this.model.petsCnt += isMore ? 20 : -20;
-
-    let cur = this.model.petsCnt / 20 + 1;
-    let all = Math.ceil(this.model.petsData.length / 20);
-    
-    this.view.render(this.model.petsData.slice(this.model.petsCnt, this.model.petsCnt + 20), { cur, all });
-
-    this.view.addListeners(this.splitPetsData.bind(this));
+    if (this.model.lengthPetsData) {
+      this.view.addListeners(this.handlePetsData.bind(this));
+    }
   }
 }
