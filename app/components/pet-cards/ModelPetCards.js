@@ -10,7 +10,7 @@ export class ModelPetCards {
   }
 
   getSlicePetsData(isMore) {
-    this.petsCurentIdx += isMore ? 20 : -20;
+    if (isMore !== null) this.petsCurentIdx += isMore ? 20 : -20;
 
     return this.petsData.slice(this.petsCurentIdx, this.petsCurentIdx + 20);
   }

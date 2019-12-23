@@ -3,33 +3,38 @@ import { TemplatePetCards } from './TemplatePetCards.js';
 export class ViewPetCards {
   constructor() {
     this.templater = new TemplatePetCards();
-    this.cards = document.querySelector('.pet-cards');
+    this.mainContainer = document.querySelector('.main .container');
   }
 
-  addListeners(splitPetsData) {
-    document.querySelector('.pag-next').addEventListener('click', () => { 
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-
-      splitPetsData(true);
-    });
-    document.querySelector('.pag-prev').addEventListener('click', () => { 
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      
-      splitPetsData(false);
+  addListenersPagination(handlePetsData) {
+    ['.pag-prev', '.pag-next'].forEach((el, idx) => {
+      document.querySelector(el).addEventListener('click', () => {
+        handlePetsData(idx ? true : false);
+      });
     });
   }
 
-  render(pets, pages) {
-    this.cards.innerHTML = '';
+  addListenersBtnsDetails(requestPetDetails) {
+    document.querySelectorAll('.btn-details').forEach(el => {
+      el.addEventListener('click', () => {
+        requestPetDetails(Number(el.dataset.id));
+      });
+    });
+  }
 
-    const html = pets.length 
-      ? pets.map((pet, idx) => this.templater.getTemplatePetCard(pet, idx)).join('') 
+  render(pets, pages, scrollTo) {
+    let html, cards, pagination;
+
+    cards = pets.map((pet, idx) => this.templater.getTemplatePetCard(pet, idx)).join('');
+    pagination = this.templater.getTemplatePagination(pages);
+    
+    html = pets.length 
+      ? cards + pagination 
       : this.templater.getTemplateNoneData();
+
+    this.mainContainer.innerHTML = '';  
+    this.mainContainer.insertAdjacentHTML('beforeend', this.templater.getTemplatePetCards(html));
     
-    this.cards.insertAdjacentHTML('beforeend', html);
-    
-    if (pets.length) {
-      this.cards.insertAdjacentHTML('beforeend', this.templater.getTemplatePagination(pages));
-    }
+    window.scrollTo({ top: scrollTo, behavior: scrollTo ? 'auto' : 'smooth' });
   }
 }

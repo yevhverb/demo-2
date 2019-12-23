@@ -1,5 +1,5 @@
 export class ModelRoot {
-  constructor({ publish, subscribe }) {
+  constructor({ subscribe, publish }) {
     this.petsBase = 'https://jsonstorage.net/api/items/d301cfd4-7636-4dab-a1ae-753fbca366b4';
     this.petsData;
 
@@ -9,6 +9,7 @@ export class ModelRoot {
     this.getPetsData();
 
     this.subscribe('onSearch', search => this.handleSearch(search));
+    this.subscribe('onRequestPetDetails', id => this.handlePetDetails(id));
   }
 
   getPetsData() {
@@ -26,5 +27,9 @@ export class ModelRoot {
       ? this.petsData.filter(pet => pet.breed.toLowerCase().indexOf(search) > -1) 
       : this.petsData
     );
+  }
+
+  handlePetDetails(id) {
+    this.publish('onShowPetDetails', this.petsData.find(pet => pet.id === id));
   }
 }
