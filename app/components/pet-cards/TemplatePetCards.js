@@ -1,4 +1,4 @@
-import { calcAgeMonth, toUpperCaseFirstChar } from '../../helpers/index.js';
+import { calcAgeMonth } from '../../helpers/index.js';
 
 export class TemplatePetCards {
   getTemplatePetCards(html) {
@@ -7,15 +7,15 @@ export class TemplatePetCards {
     `;
   }
 
-  getTemplatePetCard({ id, image, breed, species, gender, price, birth_date }, idx) {
+  getTemplatePetCard({ id, image, breed, species, gender, price, birth_date, buy }, idx, isAnim) {
     price = price.toFixed(2);
     species = species.toLowerCase();
     if (species === 'bird') species = 'dove';
 
     return `
       <div class="column is-narrow is-3-widescreen is-4-desktop is-6-tablet is-12-mobile has-margin-bottom-15">
-        <article class="pet-card card animated fadeIn faster"
-          style="animation-delay: ${idx / 50}s">
+        <article class="pet-card card ${isAnim ? 'animated fadeIn faster' : ''}"
+          style="animation-delay: ${idx / 35}s">
           <header class="pet-card-header">
             <div class="pet-card-img">
               <img src="${image}" alt="${breed}" loading="lazy">
@@ -28,8 +28,8 @@ export class TemplatePetCards {
                 <i class="fas fa-${species} has-text-grey-light"></i>
               </div>
               <div class="column is-9">
-                <p class="is-size-5 has-text-weight-bold" style="white-space: nowrap">${toUpperCaseFirstChar(breed)}</p>
-                <span class="is-size-6 has-text-weight-bold has-text-grey-light">${toUpperCaseFirstChar(gender)} /</span> 
+                <p class="is-size-5 is-capitalized has-text-weight-bold" style="white-space: nowrap">${breed}</p>
+                <span class="is-size-6 is-capitalized has-text-weight-bold has-text-grey-light">${gender} /</span> 
                 <span class="is-size-6 has-text-weight-bold has-text-grey-light">${calcAgeMonth(birth_date)} mo.</span>
               </div>
             </section>
@@ -38,8 +38,10 @@ export class TemplatePetCards {
             </section>
           </main>
           <footer class="pet-card-footer shadow-top has-padding-10 has-background-white flex flex-row">
-            <button class="btn-buy button is-focused is-half-width is-rounded is-light is-success has-margin-5 has-text-weight-bold">
-              BUY
+            <button class="btn-buy button is-focused is-half-width is-rounded is-light is-success has-margin-5 has-text-weight-bold 
+              ${buy ? 'is-danger' : ''}"
+              data-id="${id}">
+              ${buy ? 'REMOVE' : 'BUY'}
             </button>
             <button 
               class="btn-details button is-focused is-half-width is-rounded is-light is-warning has-margin-5 has-text-weight-bold"

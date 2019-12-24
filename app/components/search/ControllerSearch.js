@@ -9,7 +9,7 @@ export class ControllerSearch {
     this.publish = publish;
 
     this.view.render();
-    this.view.addSearchListener(this.handleSearch.bind(this));
+    this.view.addListenersSearch(this.handleSearch.bind(this));
   }
 
   handleSearch(search) {

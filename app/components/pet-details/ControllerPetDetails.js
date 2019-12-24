@@ -9,24 +9,39 @@ export class ControllerPetDetails {
     this.subscribe = subscribe;
     this.publish = publish;
 
-    this.subscribe('onShowPetDetails', pet => {
-      const scrollTo = window.pageYOffset;
+    this.subscribe('onShowPetDetails', pet => { 
+      const scrollTo = this.view.main.scrollTop;
 
       this.model.savePetDetailsData(pet, scrollTo);
       this.handleShowPetDetails();
     });
+
+    this.subscribe('onReturnPetDetails', ({scrollTo, isAnim}) => {
+      this.handleShowPetDetails(scrollTo, isAnim);
+    });
   }
 
-  handleShowPetDetails() {
+  handleShowPetDetails(scrollTo = 0, isAnim = true) {
     this.view.render(
       this.model.getPrimaryPetDetailsData(), 
-      this.model.getSecondaryPetDetailsData()
+      this.model.getSecondaryPetDetailsData(),
+      scrollTo,
+      isAnim
     );
 
-    this.view.addListenersBack(this.handleBack.bind(this));
+    this.view.addListenersBack(this.handleReturnBack.bind(this));
+    this.view.addListenersBtnBuy(this.handlePetInCart.bind(this));
   }
 
-  handleBack() {
-    this.publish('onHiddenPetDetails', this.model.scrollTo);
+  handleReturnBack() {
+    this.publish('onReturnPetCards', { scrollTo: this.model.scrollTo });
+  }
+
+  handlePetInCart(isBuy) {
+    isBuy 
+    ? this.publish('onBuyPet', this.model.petDetailsData)
+    : this.publish('onRemovePet', this.model.petDetailsData);
+    
+    this.publish('onUpdateCart', Number(this.model.petDetailsData.id));
   }
 }

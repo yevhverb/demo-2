@@ -3,16 +3,17 @@ import { TemplateSearch } from './TemplateSearch.js';
 export class ViewSearch {
   constructor() {
     this.templater = new TemplateSearch();
-    this.searchContainer = document.querySelector('.search');
-    this.searchForm = document.querySelector('.search form');
+
+    this.root = document.querySelector('.root');
+    this.search = this.root.querySelector('.search');
   }
 
-  addSearchListener(handleSearch) {
-    const form = this.searchContainer.querySelector('form');
-    const input = this.searchContainer.querySelector('input');
+  addListenersSearch(handleSearch) {
+    const form = this.search.querySelector('form');
+    const input = this.search.querySelector('input');
 
     input.addEventListener('blur', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      this.root.scrollTo({ top: 0, behavior: 'smooth' });
       handleSearch(input.value);
     });
 
@@ -23,6 +24,6 @@ export class ViewSearch {
   }
 
   render() {
-    this.searchContainer.insertAdjacentHTML('beforeend', this.templater.getTemplateSearch());
+    this.search.insertAdjacentHTML('beforeend', this.templater.getTemplateSearch());
   }
 }

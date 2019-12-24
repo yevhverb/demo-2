@@ -11,9 +11,9 @@ export class ModelPetDetails {
   }
 
   getPrimaryPetDetailsData() {
-    let { id, breed, image, species, price, ...secondary } = this.petDetailsData;
+    let { id, breed, image, species, price, buy, ...secondary } = this.petDetailsData;
     this.secondaryPetDetailsData = secondary;
-    return { breed, image, species, price };
+    return { breed, image, species, price, buy };
   }
 
   getSecondaryPetDetailsData() {

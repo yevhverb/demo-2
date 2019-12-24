@@ -9,7 +9,9 @@ export class ModelSearch {
     this.searchPrev = this.searchCurrent;
     this.searchCurrent = search;
     
-    if (search) this.searchHistory.push(search);
+    if (search) {
+      this.searchHistory.push(search);
+    }
   }
 
   get isSearchDifferent() {

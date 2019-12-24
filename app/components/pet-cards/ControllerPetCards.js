@@ -14,25 +14,35 @@ export class ControllerPetCards {
       this.handlePetsData(true);
     });
 
-    this.subscribe('onHiddenPetDetails', scrollTo => {
-      this.handlePetsData(null, scrollTo);
+    this.subscribe('onReturnPetCards', ({scrollTo, isAnim}) => {
+      this.handlePetsData(null, scrollTo, isAnim);
     });
   }
 
-  handlePetsData(isMore, scrollTo = 0) {   
+  handlePetsData(isMore, scrollTo = 0, isAnim = true) {
     this.view.render(
       this.model.getSlicePetsData(isMore), 
       this.model.calcPaginationPetsData(),
-      scrollTo
+      scrollTo,
+      isAnim
     );
 
-    if (this.model.lengthPetsData) {
+    if (this.model.getLengthPetsData()) {
       this.view.addListenersPagination(this.handlePetsData.bind(this));
-      this.view.addListenersBtnsDetails(this.requestPetDetails.bind(this));
+      this.view.addListenersBtnsDetails(this.handlePetDetails.bind(this));
+      this.view.addListenersBtnsBuy(this.handlePetInCart.bind(this));
     }
   }
 
-  requestPetDetails(id) {
-    if (id) this.publish('onRequestPetDetails', id);
+  handlePetDetails(id) {
+    this.publish('onShowPetDetails', this.model.getPetDetails(id));
+  }
+
+  handlePetInCart(id, isBuy) {
+    isBuy 
+    ? this.publish('onBuyPet', this.model.getPetDetails(id))
+    : this.publish('onRemovePet', this.model.getPetDetails(id));
+    
+    this.publish('onUpdateCart', id);
   }
 }

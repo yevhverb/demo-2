@@ -11,8 +11,11 @@ export class ModelPetCards {
 
   getSlicePetsData(isMore) {
     if (isMore !== null) this.petsCurentIdx += isMore ? 20 : -20;
-
     return this.petsData.slice(this.petsCurentIdx, this.petsCurentIdx + 20);
+  }
+
+  getLengthPetsData() {
+    return this.petsData.length;
   }
 
   calcPaginationPetsData() {
@@ -22,7 +25,7 @@ export class ModelPetCards {
     }
   }
 
-  get lengthPetsData() {
-    return this.petsData.length;
+  getPetDetails(id) {
+    return this.petsData.find(pet => pet.id === id);
   }
 }

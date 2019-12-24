@@ -3,20 +3,31 @@ import { TemplatePetDetails } from './TemplatePetDetails.js';
 export class ViewPetDetails {
   constructor() {
     this.templater = new TemplatePetDetails();
-    this.mainContainer = document.querySelector('.main .container');
+
+    this.main = document.querySelector('.main');
+    this.container = this.main.querySelector('.container');
   }
 
-  addListenersBack(handleBack) {
-    document.querySelector('.btn-back')
-      .addEventListener('click', () => handleBack());
+  addListenersBack(handleReturnBack) {
+    this.container.querySelector('.btn-back')
+      .addEventListener('click', () => handleReturnBack());
   }
 
-  render(primary, secondary) {
-    let subs = secondary.map((field, idx) => this.templater.getTemplatePetSub(field, idx)).join('');
+  addListenersBtnBuy(handlePetToCart) {
+    this.container.querySelector('.btn-buy')
+      .addEventListener('click', event => {
+        event.target.classList.toggle('is-danger');
+        event.target.textContent = event.target.classList.contains('is-danger') ? 'REMOVE' : 'BUY';
+        handlePetToCart(event.target.textContent !== 'BUY');
+      });
+  }
 
-    this.mainContainer.innerHTML = '';
-    this.mainContainer.insertAdjacentHTML('beforeend', this.templater.getTemplatePetDetails(primary, subs));
+  render(primary, secondary, scrollTo, isAnim) {
+    secondary = secondary.map((field, idx) => this.templater.getTemplatePetSub(field, idx, isAnim)).join('');
 
-    window.scrollTo({ top: 0, behavior: 'auto' });
+    this.container.innerHTML = this.templater.getTemplatePetDetails(primary, secondary, isAnim);
+
+    this.main.scrollTo({ top: scrollTo, behavior: 'auto' });
+    this.main.dataset.page = 'pet-details';
   }
 }

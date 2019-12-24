@@ -3,38 +3,50 @@ import { TemplatePetCards } from './TemplatePetCards.js';
 export class ViewPetCards {
   constructor() {
     this.templater = new TemplatePetCards();
-    this.mainContainer = document.querySelector('.main .container');
+
+    this.main = document.querySelector('.main');
+    this.container = this.main.querySelector('.container');
   }
 
   addListenersPagination(handlePetsData) {
     ['.pag-prev', '.pag-next'].forEach((el, idx) => {
-      document.querySelector(el).addEventListener('click', () => {
+      this.container.querySelector(el).addEventListener('click', () => {
         handlePetsData(idx ? true : false);
       });
     });
   }
 
-  addListenersBtnsDetails(requestPetDetails) {
-    document.querySelectorAll('.btn-details').forEach(el => {
-      el.addEventListener('click', () => {
-        requestPetDetails(Number(el.dataset.id));
+  addListenersBtnsBuy(handlePetInCart) {
+    this.container.querySelectorAll('.btn-buy').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('is-danger');
+        btn.textContent = btn.classList.contains('is-danger') ? 'REMOVE' : 'BUY';
+        handlePetInCart(Number(btn.dataset.id), btn.textContent !== 'BUY');
       });
     });
   }
 
-  render(pets, pages, scrollTo) {
+  addListenersBtnsDetails(requestPetDetails) {
+    this.container.querySelectorAll('.btn-details').forEach(btn => {
+      btn.addEventListener('click', () => {
+        requestPetDetails(Number(btn.dataset.id));
+      });
+    });
+  }
+
+  render(pets, pages, scrollTo, isAnim) {
     let html, cards, pagination;
 
-    cards = pets.map((pet, idx) => this.templater.getTemplatePetCard(pet, idx)).join('');
+    cards = pets.map((pet, idx) => this.templater.getTemplatePetCard(pet, idx, isAnim)).join('');
     pagination = this.templater.getTemplatePagination(pages);
     
     html = pets.length 
       ? cards + pagination 
       : this.templater.getTemplateNoneData();
 
-    this.mainContainer.innerHTML = '';  
-    this.mainContainer.insertAdjacentHTML('beforeend', this.templater.getTemplatePetCards(html));
-    
-    window.scrollTo({ top: scrollTo, behavior: scrollTo ? 'auto' : 'smooth' });
+    this.container.innerHTML = this.templater.getTemplatePetCards(html);  
+
+    this.main.scrollTo({ top: scrollTo, behavior: scrollTo ? 'auto' : 'smooth' });
+    this.main.dataset.page = 'pet-cards';
   }
 }

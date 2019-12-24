@@ -1,7 +1,7 @@
-import { calcBirthDay, calcAgeMonth, toUpperCaseFirstChar } from '../../helpers/index.js';
+import { calcBirthDay, calcAgeMonth } from '../../helpers/index.js';
 
 export class TemplatePetDetails {
-  getTemplatePetDetails({ breed, image, species, price }, subs) {
+  getTemplatePetDetails({ breed, image, species, price, buy }, secondary, isAnim) {
     if (species === 'bird') species = 'dove';
     price = price.toFixed(2);
 
@@ -9,9 +9,9 @@ export class TemplatePetDetails {
       <div class="flex flex-row justify-center">
         <button class="btn-back button card is-rounded is-borderless has-margin-left-15 has-text-weight-bold">BACK</button>
       </div>
-      <div class="columns is-centered has-margin-top-20 animated fadeIn faster">
+      <div class="columns is-centered has-margin-top-20 ${isAnim ? 'animated fadeIn faster' : ''}">
         <div class="column is-3-widescreen is-4-desktop is-5-tablet">
-          <article class="pet-details-left card is-full-width">
+          <article class="pet-details-left card is-full-width ">
             <header class="pet-details-left-header">
               <img src="${image}" alt="${breed}">
             </header>
@@ -22,7 +22,7 @@ export class TemplatePetDetails {
                   <i class="fas fa-${species} has-text-grey-light"></i>
                 </div>
                 <div class="column">
-                  <h2 class="is-size-4 has-text-weight-bold">${toUpperCaseFirstChar(breed)}</h2>
+                  <h2 class="is-size-4 is-capitalized has-text-weight-bold">${breed}</h2>
                   <h3 class="is-size-6 has-text-weight-bold has-text-grey-light">BREED:</h3>
                 </div>
               </div>
@@ -38,8 +38,9 @@ export class TemplatePetDetails {
             </main>
             <footer class="pet-details-left-footer card shadow-top has-padding-15">
               <button 
-                class="btn-buy button is-focused is-full-width is-rounded is-light is-success has-text-weight-bold">
-                BUY
+                class="btn-buy button is-focused is-full-width is-rounded is-light is-success has-text-weight-bold
+                ${buy ? 'is-danger' : ''}">
+                ${buy ? 'REMOVE' : 'BUY'}
               </button>
             </footer>
           </article>
@@ -47,7 +48,7 @@ export class TemplatePetDetails {
         <div class="column is-3-widescreen is-4-desktop is-5-tablet">
           <div class="pet-details-right card">
             <div class="columns is-multiline has-padding-top-10 has-padding-bottom-10">
-              ${subs}
+              ${secondary}
             </div>
           </div>
         </div>
@@ -55,21 +56,19 @@ export class TemplatePetDetails {
     `;
   }
   
-  getTemplatePetSub([key, value], idx) {
+  getTemplatePetSub([key, value], idx, isAnim) {
     key = key.replace('_', ' ').toUpperCase();
-    value = toUpperCaseFirstChar(value);
 
     if (key === 'BIRTH DATE') value = `${calcBirthDay(value)} (${calcAgeMonth(value)} mo.)`;
     if (key === 'WEIGHT') value = `${value} kg`;
 
     return `
-      <div class="column is-12"
-        style="border-bottom: 1.5px solid #f9f9f9;">
+      <div class="column is-12 ${isAnim ? 'animated fadeIn faster' : ''}"
+        style="border-bottom: 1.5px solid #f9f9f9; animation-delay: ${idx / 15}s">
         <article 
-          class="pet-details-sub flex flex-row align-items-center has-padding-5 has-padding-left-25 has-padding-right-25 animated fadeIn faster"
-          style="animation-delay: ${idx / 20}s">
+          class="pet-details-sub flex flex-row align-items-center has-padding-5 has-padding-left-25 has-padding-right-25">
           <sectionc class="has-margin-left-15">
-            <p class="is-size-5 has-text-weight-bold has-text-grey">${value}</p>
+            <p class="is-size-5 ${isNaN(value[0]) ? 'is-capitalized' : ''} has-text-weight-bold has-text-grey">${value}</p>
             <h3 class="is-size-6 has-text-weight-bold has-text-grey-light">${key}:</h3>
           </section>
         </article>
