@@ -9,28 +9,30 @@ export class ControllerPetCards {
     this.subscribe = subscribe;
     this.publish = publish;
     
-    this.subscribe('onUpdatePetsData', pets => {
+    this.subscribe('onUpdatePetCards', pets => {
       this.model.updatePetsData(pets);
       this.handlePetsData(true);
     });
 
-    this.subscribe('onReturnPetCards', ({scrollTo, isAnim}) => {
-      this.handlePetsData(null, scrollTo, isAnim);
+    this.subscribe('onReturnPetCards', ({ scrollTo, isAnimate }) => {
+      this.handlePetsData(null, scrollTo, isAnimate);
     });
   }
 
-  handlePetsData(isMore, scrollTo = 0, isAnim = true) {
+  handlePetsData(isMore, scrollTo = 0, isAnimate = true) {
     this.view.render(
       this.model.getSlicePetsData(isMore), 
-      this.model.calcPaginationPetsData(),
+      this.model.calcPagination(),
       scrollTo,
-      isAnim
+      isAnimate
     );
 
-    if (this.model.getLengthPetsData()) {
-      this.view.addListenersPagination(this.handlePetsData.bind(this));
-      this.view.addListenersBtnsDetails(this.handlePetDetails.bind(this));
-      this.view.addListenersBtnsBuy(this.handlePetInCart.bind(this));
+    if (this.model.lengthPetsData) {
+      this.view.addListeners(
+        this.handlePetsData.bind(this),
+        this.handlePetInCart.bind(this),
+        this.handlePetDetails.bind(this)
+      );
     }
   }
 
@@ -39,10 +41,9 @@ export class ControllerPetCards {
   }
 
   handlePetInCart(id, isBuy) {
-    isBuy 
-    ? this.publish('onBuyPet', this.model.getPetDetails(id))
-    : this.publish('onRemovePet', this.model.getPetDetails(id));
-    
-    this.publish('onUpdateCart', id);
+    const pet = this.model.getPetDetails(id);
+
+    this.publish('onUpdateCart', { pet, isBuy })
+    this.publish('onChangePetsData', id);
   }
 }

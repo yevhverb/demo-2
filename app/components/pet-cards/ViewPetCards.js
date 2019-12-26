@@ -8,15 +8,13 @@ export class ViewPetCards {
     this.container = this.main.querySelector('.container');
   }
 
-  addListenersPagination(handlePetsData) {
+  addListeners(handlePetsData, handlePetInCart, handlePetDetails) {
     ['.pag-prev', '.pag-next'].forEach((el, idx) => {
       this.container.querySelector(el).addEventListener('click', () => {
         handlePetsData(idx ? true : false);
       });
     });
-  }
 
-  addListenersBtnsBuy(handlePetInCart) {
     this.container.querySelectorAll('.btn-buy').forEach(btn => {
       btn.addEventListener('click', () => {
         btn.classList.toggle('is-danger');
@@ -24,12 +22,10 @@ export class ViewPetCards {
         handlePetInCart(Number(btn.dataset.id), btn.textContent !== 'BUY');
       });
     });
-  }
 
-  addListenersBtnsDetails(requestPetDetails) {
     this.container.querySelectorAll('.btn-details').forEach(btn => {
       btn.addEventListener('click', () => {
-        requestPetDetails(Number(btn.dataset.id));
+        handlePetDetails(Number(btn.dataset.id));
       });
     });
   }

@@ -1,31 +1,32 @@
 export class ModelPetCards {
   constructor() {
+    this.petsCount = 20;
+    this.petsCurIdx = -this.petsCount;
     this.petsData;
-    this.petsCurentIdx = -20;
   }
 
   updatePetsData(pets) {
     this.petsData = pets;
-    this.petsCurentIdx = -20;
+    this.petsCurIdx = -20;
   }
 
   getSlicePetsData(isMore) {
-    if (isMore !== null) this.petsCurentIdx += isMore ? 20 : -20;
-    return this.petsData.slice(this.petsCurentIdx, this.petsCurentIdx + 20);
+    if (isMore !== null) this.petsCurIdx += isMore ? this.petsCount : -this.petsCount;
+    return this.petsData.slice(this.petsCurIdx, this.petsCurIdx + this.petsCount);
   }
 
-  getLengthPetsData() {
-    return this.petsData.length;
-  }
-
-  calcPaginationPetsData() {
+  calcPagination() {
     return { 
-      cur: Math.floor(this.petsCurentIdx / 20 + 1),
-      all: Math.ceil(this.petsData.length / 20)
+      cur: Math.floor(this.petsCurIdx / this.petsCount + 1),
+      all: Math.ceil(this.petsData.length / this.petsCount)
     }
   }
 
   getPetDetails(id) {
-    return this.petsData.find(pet => pet.id === id);
+    return this.petsData.find(pet => pet.id == id);
+  }
+
+  get lengthPetsData() {
+    return this.petsData.length;
   }
 }

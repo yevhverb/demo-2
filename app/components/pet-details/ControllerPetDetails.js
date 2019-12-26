@@ -10,38 +10,33 @@ export class ControllerPetDetails {
     this.publish = publish;
 
     this.subscribe('onShowPetDetails', pet => { 
-      const scrollTo = this.view.main.scrollTop;
+      const scrollTo = this.view.mainScrollTop;
 
-      this.model.savePetDetailsData(pet, scrollTo);
+      this.model.saveData(pet, scrollTo);
       this.handleShowPetDetails();
     });
 
-    this.subscribe('onReturnPetDetails', ({scrollTo, isAnim}) => {
-      this.handleShowPetDetails(scrollTo, isAnim);
+    this.subscribe('onReturnPetDetails', ({ scrollTo, isAnimate }) => {
+      this.handleShowPetDetails(scrollTo, isAnimate);
     });
   }
 
-  handleShowPetDetails(scrollTo = 0, isAnim = true) {
-    this.view.render(
-      this.model.getPrimaryPetDetailsData(), 
-      this.model.getSecondaryPetDetailsData(),
-      scrollTo,
-      isAnim
-    );
-
-    this.view.addListenersBack(this.handleReturnBack.bind(this));
-    this.view.addListenersBtnBuy(this.handlePetInCart.bind(this));
+  handleShowPetDetails(scrollTo = 0, isAnimate = true) {
+    this.view.render(this.model.primaryData, this.model.secondaryData, scrollTo, isAnimate);
+    this.view.addListeners(this.handleReturnBack.bind(this), this.handlePetInCart.bind(this));
   }
 
   handleReturnBack() {
-    this.publish('onReturnPetCards', { scrollTo: this.model.scrollTo });
+    const context = ({ scrollTo: this.model.scrollTo, isAnimate: true });
+
+    this.publish('onReturnPetCards', context);
   }
 
   handlePetInCart(isBuy) {
-    isBuy 
-    ? this.publish('onBuyPet', this.model.petDetailsData)
-    : this.publish('onRemovePet', this.model.petDetailsData);
-    
-    this.publish('onUpdateCart', Number(this.model.petDetailsData.id));
+    const pet = this.model.petDetailsData;
+    const id = pet.id;
+
+    this.publish('onUpdateCart', { pet, isBuy })
+    this.publish('onChangePetsData', id);
   }
 }

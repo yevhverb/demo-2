@@ -5,18 +5,18 @@ export class ModelPetDetails {
     this.scrollTo;
   }
 
-  savePetDetailsData(pet, scrollTo) {
+  saveData(pet, scrollTo) {
     this.petDetailsData = pet;
     this.scrollTo = scrollTo;
   }
 
-  getPrimaryPetDetailsData() {
-    let { id, breed, image, species, price, buy, ...secondary } = this.petDetailsData;
+  get primaryData() {
+    let { id, breed, image, species, price, is_buy, ...secondary } = this.petDetailsData;
     this.secondaryPetDetailsData = secondary;
-    return { breed, image, species, price, buy };
+    return { breed, image, species, price, is_buy };
   }
 
-  getSecondaryPetDetailsData() {
+  get secondaryData() {
     return Object.entries(this.secondaryPetDetailsData);
   }
 }

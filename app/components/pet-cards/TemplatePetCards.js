@@ -7,7 +7,7 @@ export class TemplatePetCards {
     `;
   }
 
-  getTemplatePetCard({ id, image, breed, species, gender, price, birth_date, buy }, idx, isAnim) {
+  getTemplatePetCard({ id, image, breed, species, gender, price, birth_date, is_buy }, idx, isAnim) {
     price = price.toFixed(2);
     species = species.toLowerCase();
     if (species === 'bird') species = 'dove';
@@ -39,9 +39,9 @@ export class TemplatePetCards {
           </main>
           <footer class="pet-card-footer shadow-top has-padding-10 has-background-white flex flex-row">
             <button class="btn-buy button is-focused is-half-width is-rounded is-light is-success has-margin-5 has-text-weight-bold 
-              ${buy ? 'is-danger' : ''}"
+              ${is_buy ? 'is-danger' : ''}"
               data-id="${id}">
-              ${buy ? 'REMOVE' : 'BUY'}
+              ${is_buy ? 'REMOVE' : 'BUY'}
             </button>
             <button 
               class="btn-details button is-focused is-half-width is-rounded is-light is-warning has-margin-5 has-text-weight-bold"

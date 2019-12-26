@@ -9,36 +9,35 @@ export class ControllerCart {
     this.subscribe = subscribe;
     this.publish = publish;
 
-    this.view.addListenersCommon(
+    this.view.addListeners(
       this.handleShowItems.bind(this),
+      this.handleShowOrder.bind(this),
       this.handleCloseCart.bind(this)
     );
 
-    this.view.renderNav();
-    this.view.addListenersNav(
-      this.handleShowItems.bind(this),
-      this.handleShowOrder.bind(this)
-    );
+    this.view.updateCartCounter(this.model.lengthPetsData);
 
-    this.handleShowItems();
-
-    this.subscribe('onBuyPet', pet => this.model.addPetData(pet));
-    this.subscribe('onDontBuyPet', pet => this.model.removePetData(pet));
+    this.subscribe('onUpdateCart', ({ pet, isBuy }) => {
+      this.model.updateCart({ pet, isBuy });
+      this.view.updateCartCounter(this.model.lengthPetsData);
+    });
   }
 
   handleShowItems() {
-    this.model.scrollTo = this.view.main.scrollTop;
+    this.model.scrollTo = this.view.mainScrollTop;
     
     this.view.renderItems(this.model.petsData);
-    this.view.addListenersItems(this.handleRemoveItem.bind(this));
+    this.view.addListenersItems(this.handleRemoveItem.bind(this), this.handleDetailsItem.bind(this));
   }
 
   handleRemoveItem(id) {
-    this.model.removePetData(id);
-    this.view.renderItems(this.model.petsData);
-    this.view.addListenersItems(this.handleRemoveItem.bind(this));
+    this.publish('onUpdateCart', { pet: { id }, isBuy: false });
+    this.publish('onChangePetsData', id);
+    this.handleShowItems();
+  }
 
-    this.publish('onUpdateCart', Number(id));
+  handleDetailsItem(id) {
+    this.publish('onShowPetDetails', this.model.getPetDetails(id));
   }
 
   handleShowOrder() {
@@ -46,7 +45,9 @@ export class ControllerCart {
   }
 
   handleCloseCart(page) {
-    if (page === 'pet-cards') this.publish('onReturnPetCards', { scrollTo: this.model.scrollTo, isAnim: false });
-    if (page === 'pet-details') this.publish('onReturnPetDetails', { scrollTo: this.model.scrollTo, isAnim: false });
+    const context = { scrollTo: this.model.scrollTo, isAnimate: false };
+
+    if (page === 'pet-cards') this.publish('onReturnPetCards', context);
+    if (page === 'pet-details') this.publish('onReturnPetDetails', context);
   }
 }

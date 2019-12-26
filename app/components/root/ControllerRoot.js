@@ -2,8 +2,8 @@ import { ModelRoot } from './ModelRoot.js';
 import { ViewRoot } from './ViewRoot.js';
 
 export class ControllerRoot {
-  constructor(api) {
-    this.model = new ModelRoot(api);
+  constructor(psApi) {
+    this.model = new ModelRoot(psApi);
     this.view = new ViewRoot();
 
     this.view.render();

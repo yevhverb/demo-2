@@ -1,7 +1,7 @@
 import { calcBirthDay, calcAgeMonth } from '../../helpers/index.js';
 
 export class TemplatePetDetails {
-  getTemplatePetDetails({ breed, image, species, price, buy }, secondary, isAnim) {
+  getTemplatePetDetails({ breed, image, species, price, is_buy }, secondary, isAnimate) {
     if (species === 'bird') species = 'dove';
     price = price.toFixed(2);
 
@@ -9,7 +9,7 @@ export class TemplatePetDetails {
       <div class="flex flex-row justify-center">
         <button class="btn-back button card is-rounded is-borderless has-margin-left-15 has-text-weight-bold">BACK</button>
       </div>
-      <div class="columns is-centered has-margin-top-20 ${isAnim ? 'animated fadeIn faster' : ''}">
+      <div class="columns is-centered has-margin-top-20 ${isAnimate ? 'animated fadeIn faster' : ''}">
         <div class="column is-3-widescreen is-4-desktop is-5-tablet">
           <article class="pet-details-left card is-full-width ">
             <header class="pet-details-left-header">
@@ -39,8 +39,8 @@ export class TemplatePetDetails {
             <footer class="pet-details-left-footer card shadow-top has-padding-15">
               <button 
                 class="btn-buy button is-focused is-full-width is-rounded is-light is-success has-text-weight-bold
-                ${buy ? 'is-danger' : ''}">
-                ${buy ? 'REMOVE' : 'BUY'}
+                ${is_buy ? 'is-danger' : ''}">
+                ${is_buy ? 'REMOVE' : 'BUY'}
               </button>
             </footer>
           </article>
@@ -56,14 +56,14 @@ export class TemplatePetDetails {
     `;
   }
   
-  getTemplatePetSub([key, value], idx, isAnim) {
+  getTemplatePetDetailsSecondary([key, value], idx, isAnimate) {
     key = key.replace('_', ' ').toUpperCase();
 
     if (key === 'BIRTH DATE') value = `${calcBirthDay(value)} (${calcAgeMonth(value)} mo.)`;
     if (key === 'WEIGHT') value = `${value} kg`;
 
     return `
-      <div class="column is-12 ${isAnim ? 'animated fadeIn faster' : ''}"
+      <div class="column is-12 ${isAnimate ? 'animated fadeIn faster' : ''}"
         style="border-bottom: 1.5px solid #f9f9f9; animation-delay: ${idx / 15}s">
         <article 
           class="pet-details-sub flex flex-row align-items-center has-padding-5 has-padding-left-25 has-padding-right-25">

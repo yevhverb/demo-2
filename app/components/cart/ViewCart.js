@@ -10,7 +10,7 @@ export class ViewCart {
     this.cartMain = this.cart.querySelector('.cart-main');
   }
 
-  addListenersCommon(handleShowItems, handleCloseCart) {
+  addListeners(handleShowItems, handleShowOrder, handleCloseCart) {
     this.cartBtn.addEventListener('click', () => {
       this.cart.classList.toggle('is-invisible');
       handleShowItems();
@@ -22,9 +22,7 @@ export class ViewCart {
         handleCloseCart(this.main.dataset.page);
       }
     });
-  }
 
-  addListenersNav(handleShowItems, handleShowOrder) {
     this.cart.querySelector('.cart-btn-items')
       .addEventListener('click', () => handleShowItems());
 
@@ -32,16 +30,24 @@ export class ViewCart {
       .addEventListener('click', () => handleShowOrder());
   }
 
-  addListenersItems(handleRemoveItem) {
-    this.cartMain.querySelectorAll('.cart-item-remove').forEach(btn => {
+  addListenersItems(handleRemoveItem, handleDetailsItem) {
+    this.cartMain.querySelectorAll('.btn-remove').forEach(btn => {
       btn.addEventListener('click', () => {
         handleRemoveItem(btn.dataset.id);
       });
     });
+
+    this.cartMain.querySelectorAll('.btn-details').forEach(btn => {
+      btn.addEventListener('click', () => {
+        handleDetailsItem(btn.dataset.id);
+        this.cart.classList.toggle('is-invisible');
+      });
+    });
   }
 
-  renderNav() {
-    this.cartMain.insertAdjacentHTML('beforebegin', this.templater.getTemplateNavCart());
+  updateCartCounter(number) {
+    this.cartBtn.dataset.counter = number || '';
+    this.cartBtn.classList.toggle('is-empty', number < 1);
   }
 
   renderItems(data) {
@@ -51,5 +57,9 @@ export class ViewCart {
 
   renderOrder() {
     this.cartMain.innerHTML = this.templater.getTemplateMainCartOrder();
+  }
+
+  get mainScrollTop() {
+    return this.main.scrollTop;
   }
 }

@@ -4,20 +4,22 @@ export class ModelCart {
     this.scrollTo;
   }
 
+  updateCart({ pet, isBuy }) {
+    isBuy
+    ? this.addPetData(pet)
+    : this.removePetData(pet.id);
+  }
+
   addPetData(pet) {
     if (this.isNotContainsPetData(pet)) {
-      this.petsData.push(pet);
+      this.petsData.unshift(pet);
       this.updateLocalStorage();
     }
-
-    console.log('add', this.petsData);
   }
 
   removePetData(id) {
     this.petsData = this.petsData.filter(p => p.id != id);
     this.updateLocalStorage();
-
-    console.log('remove', this.petsData);
   }
 
   isNotContainsPetData(pet) {
@@ -26,5 +28,13 @@ export class ModelCart {
 
   updateLocalStorage() {
     sessionStorage.setItem('petshop-cart', JSON.stringify(this.petsData));
+  }
+
+  getPetDetails(id) {
+    return this.petsData.find(p => p.id == id);
+  }
+
+  get lengthPetsData() {
+    return this.petsData.length;
   }
 }

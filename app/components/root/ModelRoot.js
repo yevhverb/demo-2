@@ -10,7 +10,7 @@ export class ModelRoot {
     this.getPetsData();
 
     this.subscribe('onSearch', search => this.handleSearch(search));
-    this.subscribe('onUpdateCart', id => this.handleUpdateCart(id));
+    this.subscribe('onChangePetsData', id => this.handleChangePetsData(id));
   }
 
   getPetsData() {
@@ -18,31 +18,29 @@ export class ModelRoot {
       .then(response => response.json())
       .then(data => {
         this.petsData = data.map(pet => { 
-          pet.buy = false; 
+          pet.is_buy = false; 
           return pet; 
         });
 
         this.petsStorage.forEach(item => {
           const pet = this.petsData.find(pet => pet.id == item.id);
-          if (pet) pet.buy = true;
+          pet.is_buy = true;
         });
 
-        this.publish('onUpdatePetsData', this.petsData);
+        this.publish('onUpdatePetCards', this.petsData);
       });
   }
 
   handleSearch(search) {
-    this.publish('onUpdatePetsData', 
+    this.publish('onUpdatePetCards', 
       search 
       ? this.petsData.filter(pet => pet.breed.toLowerCase().indexOf(search) > -1) 
       : this.petsData
     );
   }
 
-  handleUpdateCart(id) {
-    const pet = this.petsData.find(pet => pet.id === id);
-    pet.buy = !pet.buy;
-
-    if (!pet.buy) this.publish('onDontBuyPet', pet.id);
+  handleChangePetsData(id) {
+    const pet = this.petsData.find(pet => pet.id == id);
+    pet.is_buy = !pet.is_buy;
   }
 }

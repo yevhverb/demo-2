@@ -16,6 +16,10 @@ button, input {
   box-shadow: 0 -0.125em 1em -0.125em rgba(10,10,10,.06), 0 0 0 1px rgba(10,10,10,.025);
 }
 
+.shadow-left {
+  box-shadow: -0.125em 0 1em -0.125em rgba(10,10,10,.06), 0 0 0 1px rgba(10,10,10,.025);
+}
+
 .root {
   position: relative;
   display: flex;
@@ -141,6 +145,31 @@ button, input {
   box-shadow: 0 0 0 0.125em rgba(175,175,175,.25) !important;
 }
 
+.is-empty.cart-btn:after {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(40%, -25%) scale(0);
+}
+
+.cart-btn:after {
+  content: attr(data-counter);
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(40%, -25%) scale(1);
+  width: 22px;
+  height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0.125em rgba(72,199,116,.25);
+  color: #257942;
+  background: #e6f7ec;
+  opacity: 1;
+  transition: 200ms;
+}
+
 .cart-btn:active {
   box-shadow: none !important;
 }
@@ -173,17 +202,69 @@ button, input {
   flex-direction: column;
   width: 100%;
   height: 100%;
-  max-height: 77.5%;
+  max-height: 80%;
   transition: 250ms, opacity 100ms;
   transform: translateY(0);
 }
 
 .cart-main {
   height: 100%;
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 
 .cart-btn-order,
 .cart-btn-items {
   margin: 0 20px;
+}
+
+.cart-item {
+  width: 100%;
+  max-width: 850px;
+  height: 125px;
+  margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.cart-item-header {
+  height: 100%;
+}
+
+.cart-item-img {
+  width: 250px;
+  height: 100%;
+  filter: grayscale(45%);
+}
+
+.cart-item-img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cart-item-main {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: -20px;
+  border-radius: 20px;
+  background: #ffffff;
+}
+
+.cart-item-footer {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  max-width: 185px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left: -20px;
+  border-radius: 20px;
+  background: #ffffff;
 }

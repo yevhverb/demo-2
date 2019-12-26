@@ -8,12 +8,10 @@ export class ViewPetDetails {
     this.container = this.main.querySelector('.container');
   }
 
-  addListenersBack(handleReturnBack) {
+  addListeners(handleReturnBack, handlePetToCart) {
     this.container.querySelector('.btn-back')
       .addEventListener('click', () => handleReturnBack());
-  }
 
-  addListenersBtnBuy(handlePetToCart) {
     this.container.querySelector('.btn-buy')
       .addEventListener('click', event => {
         event.target.classList.toggle('is-danger');
@@ -22,12 +20,16 @@ export class ViewPetDetails {
       });
   }
 
-  render(primary, secondary, scrollTo, isAnim) {
-    secondary = secondary.map((field, idx) => this.templater.getTemplatePetSub(field, idx, isAnim)).join('');
+  render(primary, secondary, scrollTo, isAnimate) {
+    secondary = secondary.map((field, idx) => this.templater.getTemplatePetDetailsSecondary(field, idx, isAnimate)).join('');
 
-    this.container.innerHTML = this.templater.getTemplatePetDetails(primary, secondary, isAnim);
+    this.container.innerHTML = this.templater.getTemplatePetDetails(primary, secondary, isAnimate);
 
     this.main.scrollTo({ top: scrollTo, behavior: 'auto' });
     this.main.dataset.page = 'pet-details';
+  }
+
+  get mainScrollTop() {
+    return this.main.scrollTop;
   }
 }
