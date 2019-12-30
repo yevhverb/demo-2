@@ -11,6 +11,12 @@ export class ViewRoot {
     const dropSpecies = this.root.querySelector('.drop-species');
     const btnSpecies = dropSpecies.querySelector('button span');
 
+    window.addEventListener('resize', () => {
+      this.root.clientWidth <= 1024
+        ? this.root.classList.add('on-mobile')
+        : this.root.classList.remove('on-mobile');
+    });
+
     this.root.addEventListener('click', () => {
       dropSpecies.classList.remove('is-active');
       mainSection.classList.remove('drop-filter');

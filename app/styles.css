@@ -29,6 +29,24 @@ button, input {
   overflow: hidden; 
 }
 
+.root.on-mobile:after {
+  content: 'Mobile version is not currently available :(';
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  padding: 50px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  background-color: rgba(225, 225, 225, .975);
+}
+
 .nav {
   position: relative;
   z-index: 99;

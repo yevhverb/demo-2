@@ -8,9 +8,9 @@ export class TemplateRoot {
               <div class="column">
                 <a href="./">
                   <h1 class="title flex flex-row align-items-center is-size-5 has-text-weight-bold">
-                    <span class="is-hidden-mobiles has-padding-right-5">PET</span> 
+                    <span class="is-hidden-desktop-only is-hidden-widescreen-only has-padding-right-5">PET</span> 
                     <i class="fas fa-paw"></i>
-                    <span class="is-hidden-mobile has-padding-left-5">SHOP</span>
+                    <span class="is-hidden-desktop-only is-hidden-widescreen-only has-padding-left-5">SHOP</span>
                   </h1>
                 </a>
               </div>
