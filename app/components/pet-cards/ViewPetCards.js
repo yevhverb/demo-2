@@ -18,7 +18,7 @@ export class ViewPetCards {
     this.container.querySelectorAll('.btn-buy').forEach(btn => {
       btn.addEventListener('click', () => {
         btn.classList.toggle('is-danger');
-        btn.textContent = btn.classList.contains('is-danger') ? 'REMOVE' : 'BUY';
+        btn.textContent = btn.classList.contains('is-danger') ? 'IN CART' : 'BUY';
         handlePetInCart(Number(btn.dataset.id), btn.textContent !== 'BUY');
       });
     });

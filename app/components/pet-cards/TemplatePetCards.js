@@ -41,7 +41,7 @@ export class TemplatePetCards {
             <button class="btn-buy button is-focused is-half-width is-rounded is-light is-success has-margin-5 has-text-weight-bold 
               ${is_buy ? 'is-danger' : ''}"
               data-id="${id}">
-              ${is_buy ? 'REMOVE' : 'BUY'}
+              ${is_buy ? 'IN CART' : 'BUY'}
             </button>
             <button 
               class="btn-details button is-focused is-half-width is-rounded is-light is-warning has-margin-5 has-text-weight-bold"

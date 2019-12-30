@@ -15,7 +15,7 @@ export class ViewPetDetails {
     this.container.querySelector('.btn-buy')
       .addEventListener('click', event => {
         event.target.classList.toggle('is-danger');
-        event.target.textContent = event.target.classList.contains('is-danger') ? 'REMOVE' : 'BUY';
+        event.target.textContent = event.target.classList.contains('is-danger') ? 'IN CART' : 'BUY';
         handlePetToCart(event.target.textContent !== 'BUY');
       });
   }

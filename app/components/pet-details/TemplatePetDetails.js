@@ -40,7 +40,7 @@ export class TemplatePetDetails {
               <button 
                 class="btn-buy button is-focused is-full-width is-rounded is-light is-success has-text-weight-bold
                 ${is_buy ? 'is-danger' : ''}">
-                ${is_buy ? 'REMOVE' : 'BUY'}
+                ${is_buy ? 'IN CART' : 'BUY'}
               </button>
             </footer>
           </article>

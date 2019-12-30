@@ -7,5 +7,8 @@ export class ControllerRoot {
     this.view = new ViewRoot();
 
     this.view.render();
+    this.view.addListeners(
+      this.model.handlePetsBySpecies.bind(this.model)
+    );
   }
 }

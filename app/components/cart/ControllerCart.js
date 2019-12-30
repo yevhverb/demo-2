@@ -23,17 +23,32 @@ export class ControllerCart {
     });
   }
 
-  handleShowItems() {
+  handleShowItems(isAnimate = true) {
     this.model.scrollTo = this.view.mainScrollTop;
     
-    this.view.renderItems(this.model.petsData);
-    this.view.addListenersItems(this.handleRemoveItem.bind(this), this.handleDetailsItem.bind(this));
+    this.view.renderItems(
+      this.model.petsData, 
+      this.model.summaryPetsData,
+      isAnimate
+    );
+
+    this.view.addListenersItems(
+      this.handleRemoveItem.bind(this), 
+      this.handleDetailsItem.bind(this),
+      this.handleClearCart.bind(this)
+    );
   }
 
   handleRemoveItem(id) {
     this.publish('onUpdateCart', { pet: { id }, isBuy: false });
     this.publish('onChangePetsData', id);
-    this.handleShowItems();
+    this.handleShowItems(false);
+  }
+
+  handleClearCart() {
+    this.model.petsData.forEach(({ id }) => {
+      this.handleRemoveItem(id);
+    }); 
   }
 
   handleDetailsItem(id) {

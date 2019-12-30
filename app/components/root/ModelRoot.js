@@ -2,7 +2,9 @@ export class ModelRoot {
   constructor({ subscribe, publish }) {
     this.petsBase = 'https://jsonstorage.net/api/items/d301cfd4-7636-4dab-a1ae-753fbca366b4';
     this.petsStorage = JSON.parse(sessionStorage.getItem('petshop-cart')) || [];
+    this.petsDataBySpecies;
     this.petsData;
+    this.search;
 
     this.subscribe = subscribe;
     this.publish = publish;
@@ -27,15 +29,27 @@ export class ModelRoot {
           pet.is_buy = true;
         });
 
-        this.publish('onUpdatePetCards', this.petsData);
+        this.handlePetsBySpecies();
       });
   }
 
-  handleSearch(search) {
-    this.publish('onUpdatePetCards', 
-      search 
-      ? this.petsData.filter(pet => pet.breed.toLowerCase().indexOf(search) > -1) 
+  handlePetsBySpecies(species) {
+    this.petsDataBySpecies = species 
+      ? this.petsData.filter(pet => pet.species === species) 
       : this.petsData
+
+    this.search 
+      ? this.handleSearch(this.search)
+      : this.publish('onUpdatePetCards', this.petsDataBySpecies);
+  }
+
+  handleSearch(search) {
+    this.search = search;
+
+    this.publish('onUpdatePetCards', 
+      this.search 
+        ? this.petsDataBySpecies.filter(pet => pet.breed.toLowerCase().indexOf(search) > -1) 
+        : this.petsDataBySpecies
     );
   }
 

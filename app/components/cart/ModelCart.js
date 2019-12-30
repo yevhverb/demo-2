@@ -34,6 +34,13 @@ export class ModelCart {
     return this.petsData.find(p => p.id == id);
   }
 
+  get summaryPetsData() {
+    const totalPrice = this.petsData.reduce((acc, cur) => acc + cur.price, 0);
+    const countItems = this.lengthPetsData;
+
+    return { countItems, totalPrice };
+  }
+
   get lengthPetsData() {
     return this.petsData.length;
   }

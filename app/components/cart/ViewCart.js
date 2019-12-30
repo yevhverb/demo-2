@@ -30,7 +30,7 @@ export class ViewCart {
       .addEventListener('click', () => handleShowOrder());
   }
 
-  addListenersItems(handleRemoveItem, handleDetailsItem) {
+  addListenersItems(handleRemoveItem, handleDetailsItem, handleClearCart) {
     this.cartMain.querySelectorAll('.btn-remove').forEach(btn => {
       btn.addEventListener('click', () => {
         handleRemoveItem(btn.dataset.id);
@@ -43,6 +43,9 @@ export class ViewCart {
         this.cart.classList.toggle('is-invisible');
       });
     });
+    
+    this.cartMain.querySelector('.cart-btn-clear')
+      .addEventListener('click', () => handleClearCart());
   }
 
   updateCartCounter(number) {
@@ -50,9 +53,14 @@ export class ViewCart {
     this.cartBtn.classList.toggle('is-empty', number < 1);
   }
 
-  renderItems(data) {
-    const items = data.map(item => this.templater.getTemplateCartItem(item)).join('');
-    this.cartMain.innerHTML = this.templater.getTemplateMainCartItems(items);
+  renderItems(data, { totalPrice, countItems }, isAnimate) {
+    const items = data.length
+      ? data.map((item, idx) => this.templater.getTemplateCartItem(item, idx, isAnimate)).join('')
+      : this.templater.getTemplateCartNoItem();
+
+    const summary = this.templater.getTemplateCartSummary(countItems, totalPrice);
+
+    this.cartMain.innerHTML = this.templater.getTemplateMainCartItems(items, summary);
   }
 
   renderOrder() {
