@@ -6,8 +6,8 @@ export class ModelCart {
 
   updateCart({ pet, isBuy }) {
     isBuy
-    ? this.addPetData(pet)
-    : this.removePetData(pet.id);
+      ? this.addPetData(pet)
+      : this.removePetData(pet.id);
   }
 
   addPetData(pet) {
@@ -32,6 +32,10 @@ export class ModelCart {
 
   getPetDetails(id) {
     return this.petsData.find(p => p.id == id);
+  }
+
+  sendOrder(detailsOrder) {
+    alert(detailsOrder);
   }
 
   get summaryPetsData() {

@@ -4,7 +4,8 @@ export class ViewPetCards {
   constructor() {
     this.templater = new TemplatePetCards();
 
-    this.main = document.querySelector('.main');
+    this.root = document.querySelector('.root');
+    this.main = this.root.querySelector('.main');
     this.container = this.main.querySelector('.container');
   }
 
@@ -31,14 +32,14 @@ export class ViewPetCards {
   }
 
   render(pets, pages, scrollTo, isAnim) {
-    let html, cards, pagination;
+    let html, cards, pagination, categorie;
 
     cards = pets.map((pet, idx) => this.templater.getTemplatePetCard(pet, idx, isAnim)).join('');
     pagination = this.templater.getTemplatePagination(pages);
-    
+
     html = pets.length 
       ? cards + pagination 
-      : this.templater.getTemplateNoneData();
+      : this.templater.getTemplateNoData();
 
     this.container.innerHTML = this.templater.getTemplatePetCards(html);  
 

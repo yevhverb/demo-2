@@ -1,3 +1,4 @@
+import { isValidPhone, isValidEmail } from '../../helpers/index.js';
 import { TemplateCart } from './TemplateCart.js';
 
 export class ViewCart {
@@ -48,6 +49,60 @@ export class ViewCart {
       .addEventListener('click', () => handleClearCart());
   }
 
+  addListenersOrder(petsData, summary, handleOrder) {
+    const cartOrder = this.cart.querySelector('form');
+
+    cartOrder.addEventListener('submit', event => {
+      event.preventDefault();
+
+      const details = {};
+
+      cartOrder.querySelectorAll('input').forEach(input => {
+        const help = input.parentNode.nextElementSibling;
+        const value = input.value;
+        const name = input.dataset.order;
+
+        help.innerHTML = '';
+
+        if (!value) {
+          help.innerHTML = this.templater
+            .getTemplateFieldHelp('This field is required.');
+          return;
+        }
+
+        if (name === 'phone' && !isValidPhone(value)) {
+          help.innerHTML = this.templater
+            .getTemplateFieldHelp('Not correctly. Example: +380671234567.');
+          return;
+        }
+          
+        if (name === 'email' && !isValidEmail(value)) {
+          help.innerHTML = this.templater
+            .getTemplateFieldHelp('Not correctly. Example: dog@animal.com.');
+          return;
+        }
+
+        details[name] = value;
+      });
+
+      cartOrder.querySelectorAll('textarea').forEach(textarea => {
+        const value = textarea.value;
+        const name = textarea.dataset.order;
+
+        if (value) details[name] = value;
+      });
+
+      if (details.name && details.phone && details.email && details.address) {
+        const items = petsData.map((pet, idx) => this.templater.getTemplateOrderItems(pet, idx))
+          .join('\n      ');
+
+        handleOrder(this.templater.getTemplateOrder({summary, ...details}, items));
+
+        cartOrder.reset();
+      }
+    });
+  }
+
   updateCartCounter(number) {
     this.cartBtn.dataset.counter = number || '';
     this.cartBtn.classList.toggle('is-empty', number < 1);
@@ -63,8 +118,13 @@ export class ViewCart {
     this.cartMain.innerHTML = this.templater.getTemplateMainCartItems(items, summary);
   }
 
-  renderOrder() {
-    this.cartMain.innerHTML = this.templater.getTemplateMainCartOrder();
+  renderOrder(data) {
+    const { countItems, totalPrice } = data;
+    const withClear = false;
+
+    const summary = this.templater.getTemplateCartSummary(countItems, totalPrice, withClear);
+
+    this.cartMain.innerHTML = this.templater.getTemplateMainCartOrder(summary, countItems);
   }
 
   get mainScrollTop() {

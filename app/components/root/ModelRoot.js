@@ -57,4 +57,8 @@ export class ModelRoot {
     const pet = this.petsData.find(pet => pet.id == id);
     pet.is_buy = !pet.is_buy;
   }
+
+  handlePetsBySort(type) {
+    this.publish('onSortPets', type);
+  }
 }

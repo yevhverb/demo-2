@@ -8,18 +8,18 @@ export class TemplateRoot {
               <div class="column">
                 <a href="./">
                   <h1 class="title flex flex-row align-items-center is-size-5 has-text-weight-bold">
-                    <span class="is-hidden-desktop-only is-hidden-widescreen-only has-padding-right-5">PET</span> 
-                    <i class="fas fa-paw"></i>
-                    <span class="is-hidden-desktop-only is-hidden-widescreen-only has-padding-left-5">SHOP</span>
+                    <span class="has-padding-right-5">PET</span> 
+                    <i class="fas fa-paw is-hidden-desktop-only is-hidden-widescreen-only"></i>
+                    <span class="has-padding-left-5">SHOP</span>
                   </h1>
                 </a>
               </div>
               <div class="column has-text-centered">
-                <div class="dropdown drop-species is-empty is-full-width">
+                <div class="dropdown drop-species is-full-width">
                   <div class="dropdown-trigger is-full-width">
                     <button class="button flex flex-row justify-space-between is-focused is-full-width is-rounded is-light is-empty has-text-weight-bold">
-                      <span>ALL</span>
-                      <i class="fas fa-angle-down"></i>
+                      <span><i class="fas fa-paw has-margin-right-5"></i> ALL</span>
+                      <i class="fas fa-angle-down has-margin-left-5"></i>
                     </button>
                   </div>
                   <div class="dropdown-menu" role="menu">
@@ -27,61 +27,78 @@ export class TemplateRoot {
                       <div class="dropdown-item">
                         <button class="drop-species-btn button is-focused is-full-width is-rounded is-light is-empty is-uppercase has-text-weight-bold" 
                           data-species="">
-                          ALL
+                          <i class="fas fa-paw is-events-none has-margin-right-5"></i> ALL
                         </button>
                       </div>
                       <div class="dropdown-item">
-                        <button class="drop-species-btn button is-success is-focused is-full-width is-rounded is-light is-empty is-uppercase has-text-weight-bold" 
+                        <button class="drop-species-btn button is-focused is-full-width is-rounded is-light is-empty is-uppercase has-text-weight-bold" 
                           data-species="cat">
-                          CAT
+                          <i class="fas fa-cat is-events-none has-margin-right-5"></i>  CATS
                         </button>
                       </div>
                       <div class="dropdown-item">
-                        <button class="drop-species-btn button is-success is-focused is-full-width is-rounded is-light is-empty is-uppercase has-text-weight-bold" 
+                        <button class="drop-species-btn button is-focused is-full-width is-rounded is-light is-empty is-uppercase has-text-weight-bold" 
                           data-species="dog">
-                          DOG
+                          <i class="fas fa-dog is-events-none has-margin-right-5"></i> DOGS
                         </button>
                       </div>
                       <div class="dropdown-item">
-                        <button class="drop-species-btn button is-success is-focused is-full-width is-rounded is-light is-empty is-uppercase has-text-weight-bold" 
+                        <button class="drop-species-btn button is-focused is-full-width is-rounded is-light is-empty is-uppercase has-text-weight-bold" 
                           data-species="bird">
-                          BIRD
+                          <i class="fas fa-dove is-events-none has-margin-right-5"></i> BIRDS
                         </button>
                       </div>
                       <div class="dropdown-item">
-                        <button class="drop-species-btn button is-success is-focused is-full-width is-rounded is-light is-empty is-uppercase has-text-weight-bold" 
+                        <button class="drop-species-btn button is-focused is-full-width is-rounded is-light is-empty is-uppercase has-text-weight-bold" 
                           data-species="fish">
-                          FISH
+                          <i class="fas fa-fish is-events-none has-margin-right-5"></i> FISH
                         </button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="column is-6 search"></div>
+              <div class="column is-6-widescreen is-4-desktop search"></div>
               <div class="column has-text-centered">
-                <div class="dropdown is-full-width">
+                <div class="dropdown drop-sort is-full-width">
                   <div class="dropdown-trigger is-full-width">
-                    <button class="btn-pets-sort button flex flex-row justify-space-between is-focused is-full-width is-rounded is-light is-empty has-text-weight-bold">
-                      <span>SORT BY</span>
-                      <span class="icon is-small">
-                        <i class="fas fa-angle-down"></i>
-                      </span>
+                    <button class="button flex flex-row justify-space-between is-focused is-full-width is-rounded is-light is-empty has-text-weight-bold">
+                      <span>NO SORT</span>
+                      <i class="fas fa-angle-down has-margin-left-5"></i>
                     </button>
                   </div>
                   <div class="dropdown-menu" role="menu">
-                    <div class="dropdown-content">
+                    <div class="dropdown-content card animated fadeIn faster" style="animation-duration: 267ms;">
                       <div class="dropdown-item">
-                        <p>You can insert <strong>any type of content</strong> within the dropdown menu.</p>
+                        <button class="drop-sort-btn button is-focused is-full-width is-rounded is-light is-empty is-uppercase has-text-weight-bold" 
+                          data-sort="no-sort">
+                          NO SORT
+                        </button>
                       </div>
-                      <hr class="dropdown-divider">
                       <div class="dropdown-item">
-                        <p>You simply need to use a <code>&lt;div&gt;</code> instead.</p>
+                        <button class="drop-sort-btn button is-focused is-full-width is-rounded is-light is-empty is-uppercase has-text-weight-bold" 
+                          data-sort="price-up">
+                          <i class="fas fa-arrow-up is-events-none has-margin-right-5"></i> PRICE
+                        </button>
                       </div>
-                      <hr class="dropdown-divider">
-                      <a href="#" class="dropdown-item">
-                        This is a link
-                      </a>
+                      <div class="dropdown-item">
+                        <button class="drop-sort-btn button is-focused is-full-width is-rounded is-light is-empty is-uppercase has-text-weight-bold" 
+                          data-sort="price-down">
+                          <i class="fas fa-arrow-down is-events-none has-margin-right-5"></i> PRICE 
+                        </button>
+                      </div>
+                      <div class="dropdown-item">
+                        <button class="drop-sort-btn button is-focused is-full-width is-rounded is-light is-empty is-uppercase has-text-weight-bold" 
+                          data-sort="birth-up">
+                          <i class="fas fa-arrow-up is-events-none has-margin-right-5"></i> BIRTH 
+                        </button>
+                      </div>
+                      <div class="dropdown-item">
+                        <button class="drop-sort-btn button is-focused is-full-width is-rounded is-light is-empty is-uppercase has-text-weight-bold" 
+                          data-sort="birth-down">
+                          <i class="fas fa-arrow-down is-events-none has-margin-right-5"></i> BIRTH 
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>

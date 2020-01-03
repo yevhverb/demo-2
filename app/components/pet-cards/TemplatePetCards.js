@@ -70,9 +70,11 @@ export class TemplatePetCards {
     `;
   }
 
-  getTemplateNoneData() {
+  getTemplateNoData() {
     return `
-      <h1 class="title is-size-3 is-uppercase has-text-centered is-full-width animated fadeIn fast">Such a pet was not found :(</h1>
+      <h1 class="title is-size-3 is-uppercase has-text-centered is-full-width animated fadeIn fast">
+        Such a pet was not found :(
+      </h1>
     `;
   }
 }

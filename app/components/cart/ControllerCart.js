@@ -56,7 +56,16 @@ export class ControllerCart {
   }
 
   handleShowOrder() {
-    this.view.renderOrder();
+    this.view.renderOrder(this.model.summaryPetsData);
+    this.view.addListenersOrder(
+      this.model.petsData, 
+      this.model.summaryPetsData,
+      this.handleOrder.bind(this)
+    );
+  }
+
+  handleOrder(detailsOrder) {
+    this.model.sendOrder(detailsOrder);
   }
 
   handleCloseCart(page) {

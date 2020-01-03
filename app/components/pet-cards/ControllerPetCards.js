@@ -17,6 +17,12 @@ export class ControllerPetCards {
     this.subscribe('onReturnPetCards', ({ scrollTo, isAnimate }) => {
       this.handlePetsData(null, scrollTo, isAnimate);
     });
+
+    this.subscribe('onSortPets', type => {
+      this.model.petsSort = type;
+      this.model.petsCurIdx = -20;
+      this.handlePetsData(true);
+    });
   }
 
   handlePetsData(isMore, scrollTo = 0, isAnimate = true) {

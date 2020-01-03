@@ -8,7 +8,8 @@ export class ControllerRoot {
 
     this.view.render();
     this.view.addListeners(
-      this.model.handlePetsBySpecies.bind(this.model)
+      this.model.handlePetsBySpecies.bind(this.model),
+      this.model.handlePetsBySort.bind(this.model)
     );
   }
 }

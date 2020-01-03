@@ -3,7 +3,7 @@ import { calcAgeMonth } from '../../helpers/index.js';
 export class TemplateCart {
   getTemplateMainCartItems(items, summary) {
     return `
-      <div class="container has-margin-top-25 has-padding-bottom-35" style="max-width: 835px;">
+      <div class="container has-margin-top-30 has-padding-bottom-35" style="max-width: 835px;">
         <div class="columns is-12 is-centered">
           ${summary}
         </div>
@@ -66,60 +66,109 @@ export class TemplateCart {
     `;
   }
 
-  getTemplateMainCartOrder() {
+  getTemplateMainCartOrder(summary, countItems) {
     return `
-      <div class="container has-margin-top-50 has-padding-bottom-35" style="max-width: 835px;">
+      <div class="container has-margin-top-30 has-padding-bottom-35" style="max-width: 835px;">
         <div class="cart-order">
-          <form class="columns is-multiline animated fadeIn faster" onsubmit="event => event.preventDefault();">
-            <div class="column is-6">
-              <div class="field card has-padding-25" style="border-radius: 20px;">
-                <label class="label has-margin-left-25">Name</label>
-                <div class="control">
-                  <input class="input order-field is-full-width is-size-6 has-text-weight-semibold has-background-light" 
-                    type="text" 
-                    placeholder="e.g Animal Dog">
+          <div class="columns is-12 is-centered">
+            ${summary}
+          </div>
+          <form class="card has-margin-top-10 has-padding-25 has-padding-bottom-35 animated fadeIn faster" 
+            style="border-radius: 20px;">
+            <fieldset ${countItems ? '' : 'disabled'}>
+              <div class="columns is-multiline" style="margin: 0;">
+                <div class="column is-6">
+                  <div class="field has-margin-bottom-10 animated fadeIn faster" 
+                    style="position: relative; animation-delay: .034s">
+                    <label class="label has-text-grey has-margin-left-25">
+                      Name
+                      <span class="has-text-danger">*</span>
+                    </label>
+                    <div class="control">
+                      <input class="input order-field is-full-width is-size-6 has-text-weight-semibold has-background-light" 
+                        type="text" 
+                        placeholder="e.g. Dog"
+                        data-order="name">
+                    </div>
+                    <p class="help is-size-6 has-padding-left-25"
+                      style="position: absolute;">
+                    </p>
+                  </div>
+                </div>
+                <div class="column is-6">
+                  <div class="field has-margin-bottom-10 animated fadeIn faster" 
+                    style="position: relative; animation-delay: .067s">
+                    <label class="label has-text-grey has-margin-left-25">
+                      Phone
+                      <span class="has-text-danger">*</span>
+                    </label>
+                    <div class="control">
+                      <input class="input order-field is-full-width is-size-6 has-text-weight-semibold has-background-light" 
+                        type="text" 
+                        placeholder="e.g. +380123456789"
+                        data-order="phone">
+                    </div>
+                    <p class="help is-size-6 has-padding-left-25"
+                      style="position: absolute;">
+                    </p>
+                  </div>
+                </div>
+                <div class="column is-6">
+                  <div class="field has-margin-bottom-10 animated fadeIn faster" 
+                    style="position: relative; animation-delay: .1s">
+                    <label class="label has-text-grey has-margin-left-25 ">
+                      Email
+                      <span class="has-text-danger">*</span>
+                    </label>
+                    <div class="control">
+                      <input class="input order-field is-full-width is-size-6 has-text-weight-semibold has-background-light" 
+                        type="text" 
+                        placeholder="e.g. dog@animal.com"
+                        data-order="email">
+                    </div>
+                    <p class="help is-size-6 has-padding-left-25"
+                      style="position: absolute;">
+                    </p>
+                  </div>
+                </div>
+                <div class="column is-6">
+                  <div class="field has-margin-bottom-10 animated fadeIn faster"
+                    style="position: relative; animation-delay: .134s">
+                    <label class="label has-text-grey has-margin-left-25">
+                      Address
+                      <span class="has-text-danger">*</span>
+                    </label>
+                    <div class="control">
+                      <input class="input order-field is-full-width is-size-6 has-text-weight-semibold has-background-light" 
+                        type="text" 
+                        placeholder="e.g. 23 Dog st."
+                        data-order="address">
+                    </div>
+                    <p class="help is-size-6 has-padding-left-25"
+                      style="position: absolute;">
+                    </p>
+                  </div>
+                </div>
+                <div class="column is-12">
+                  <div class="field has-margin-bottom-10 animated fadeIn faster"
+                    style="animation-delay: .167s">
+                    <label class="label has-text-grey has-margin-left-25">Notes</label>
+                    <div class="control">
+                      <textarea class="textarea order-field is-full-width is-size-6 has-text-weight-bold has-background-light" 
+                        placeholder="e.g. Please, cut this dog..."
+                        style="min-height: 6em;"
+                        data-order="note"></textarea>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="column is-6">
-              <div class="field card has-padding-25" style="border-radius: 20px;">
-                <label class="label has-margin-left-25">Phone</label>
-                <div class="control">
-                  <input class="input order-field is-full-width is-size-6 has-text-weight-semibold has-background-light" 
-                    type="text" 
-                    placeholder="e.g +380 00 000 00 00">
-                </div>
-              </div>
-            </div>
-            <div class="column is-6">
-              <div class="field card has-padding-25" style="border-radius: 20px;">
-                <label class="label has-margin-left-25 ">Email</label>
-                <div class="control">
-                  <input class="input order-field is-full-width is-size-6 has-text-weight-semibold has-background-light" 
-                    type="text" 
-                    placeholder="e.g. animal.dog@gmail.com">
-                </div>
-              </div>
-            </div>
-            <div class="column is-6">
-              <div class="field card has-padding-25" style="border-radius: 20px;">
-                <label class="label has-margin-left-25">Address</label>
-                <div class="control">
-                  <input class="input order-field is-full-width is-size-6 has-text-weight-semibold has-background-light" 
-                    type="text" 
-                    placeholder="e.g. Animals 23 st.">
-                </div>
-              </div>
-            </div>
+            </fieldset>
             <div class="column is-12">
-              <div class="field card has-margin-bottom-25 has-padding-25" style="border-radius: 20px;">
-                <label class="label has-margin-left-25">Notes</label>
-                <div class="control">
-                  <textarea class="textarea order-field is-full-width is-size-6 has-text-weight-semibold has-background-light" 
-                    placeholder="">
-                  </textarea>
-                </div>
-              </div>
+              <button class="btn-remove button is-focused is-rounded is-light is-success is-full-width has-text-weight-bold"
+                ${countItems ? '' : 'disabled'}
+                type="submit">
+                CONFIRM ORDER
+              </button>
             </div>
           </form>
         </div>
@@ -127,13 +176,32 @@ export class TemplateCart {
     `;
   }
 
-  getTemplateCartSummary(count, total) {
+  getTemplateOrder({ name, phone, email, address, note, summary }, items) {
     return `
-      <div class="column cart-total flex flex-row align-items-center justify-space-between has-margin-top-5 has-margin-bottom-10 has-padding-15">
-        <button class="cart-btn-clear button card is-medium is-rounded is-borderless is-size-6 has-text-weight-bold" ${count ? '' : 'disabled'}>
-          CLEAR CART
-        </button>
-        <h2 class="title is-size-5 is-uppercase">
+      **Name:** ${name}
+      **Phone:** ${phone}
+      **Email:** ${email}
+      **Address:** ${address}
+      **Total:** $${summary.totalPrice.toFixed(2)}
+      ${note ? `**Note:** ${note}` : ''}
+      **Items:** 
+      ${items}
+    `;
+  }
+
+  getTemplateOrderItems({ id, breed, price }, idx) {
+    return `${idx + 1}. [${id}], ${breed}, $${price.toFixed(2)};`;
+  }
+
+  getTemplateCartSummary(count, total, withClear = true) {
+    return `
+      <div class="column cart-total flex flex-row align-items-center ${withClear ? 'justify-space-between' : 'justify-flex-end'} has-padding-15 has-margin-bottom-10">
+        ${withClear
+          ? ` <button class="cart-btn-clear button card is-medium is-rounded is-borderless is-size-6 has-text-weight-bold" ${count ? '' : 'disabled'}>
+                CLEAR CART
+              </button> ` 
+          : ''}
+        <h2 class="title is-size-5 is-uppercase has-padding-top-10 has-padding-bottom-10">
           <span class="has-margin-right-10">
             <span class="has-text-grey-light has-margin-right-10">Pets: </span>
             <span class="has-text-grey">${count}</span>
@@ -144,6 +212,14 @@ export class TemplateCart {
           </span>
         </h2>
       </div>
+    `;
+  }
+
+  getTemplateFieldHelp(text) {
+    return `
+      <span class="has-text-weight-medium has-text-danger animated fadeIn faster">
+        ${text}
+      </span>
     `;
   }
 }
