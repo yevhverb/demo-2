@@ -15,7 +15,7 @@ button, input, textarea {
 img {
   display: block;
   position: relative;
-  background: url('assets/spinner.gif') no-repeat center / 65%;
+  background: url('assets/spinner.gif') no-repeat center / 16%;
 }
 
 img::after {

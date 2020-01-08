@@ -115,7 +115,11 @@ export class TemplateRoot {
         </nav>
       </header>
       <main class="main section">
-        <div class="container"></div>
+        <div class="container">
+          <div class="flex flex-row justify-center" style="width: 100%;">
+            <img src="app/assets/spinner.gif" style="max-height: 55px; background: none;">
+          </div>
+        </div>
       </main> 
       <article class="cart is-invisible">
         <section class="cart-body shadow-top has-background-white-ter">
