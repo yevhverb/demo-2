@@ -14,7 +14,7 @@ export class ModelSearch {
     }
   }
 
-  get isSearchDifferent() {
+  get isDiffSearch() {
     return this.searchCurrent !== this.searchPrev;
   }
 }

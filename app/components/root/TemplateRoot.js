@@ -90,13 +90,13 @@ export class TemplateRoot {
                       <div class="dropdown-item">
                         <button class="drop-sort-btn button is-focused is-full-width is-rounded is-light is-empty is-uppercase has-text-weight-bold" 
                           data-sort="birth-up">
-                          <i class="fas fa-arrow-up is-events-none has-margin-right-5"></i> BIRTH 
+                          <i class="fas fa-arrow-up is-events-none has-margin-right-5"></i> AGE 
                         </button>
                       </div>
                       <div class="dropdown-item">
                         <button class="drop-sort-btn button is-focused is-full-width is-rounded is-light is-empty is-uppercase has-text-weight-bold" 
                           data-sort="birth-down">
-                          <i class="fas fa-arrow-down is-events-none has-margin-right-5"></i> BIRTH 
+                          <i class="fas fa-arrow-down is-events-none has-margin-right-5"></i> AGE 
                         </button>
                       </div>
                     </div>

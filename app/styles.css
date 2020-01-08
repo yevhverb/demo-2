@@ -12,6 +12,26 @@ button, input, textarea {
   transition: .134s;
 }
 
+img {
+  display: block;
+  position: relative;
+  background: url('assets/spinner.gif') no-repeat center / 65%;
+}
+
+img::after {
+  display: block;
+  content: ' ';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  background: 
+    url('assets/no-image.png') no-repeat center / 45%,
+    rgb(255, 255, 255);
+}
+
 .is-events-none {
   pointer-events: none;
 }
@@ -136,6 +156,22 @@ button, input, textarea {
   height: 100%;
   object-fit: cover;
   border-radius: 20px;
+}
+
+.pet-card-title {
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.pet-card-title:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: linear-gradient(to left, #ffffff, transparent 25%);
 }
 
 .pet-card-main, 
@@ -338,6 +374,38 @@ button, input, textarea {
   width: 100%;
   max-width: 850px;
   border-radius: 20px;
+}
+
+.cart-order-success::after,
+.cart-order-error::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+  border: 2px solid;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 1.5em;
+  animation: fadeIn 400ms forwards;
+}
+
+.cart-order-success::after {
+  content: 'SUCCESS! WE ALREADY PACKING YOUR PETS!';
+  border-color:rgba(37, 121, 66, .2);
+  color: #257942;
+  background: rgba(220, 244, 228, .95);
+}
+
+.cart-order-error::after {
+  content: 'ERROR! SOMETHING WENT WRONG! TRY AGAIN LATER...';
+  border-color:rgba(204, 15, 53, .2);
+  color: #cc0f35;
+  background: rgba(252, 212, 220, .95);
 }
 
 .dropdown-content {

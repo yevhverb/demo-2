@@ -12,29 +12,42 @@ export class ControllerPetDetails {
     this.subscribe('onShowPetDetails', pet => { 
       const scrollTo = this.view.mainScrollTop;
 
-      this.model.saveData(pet, scrollTo);
-      this.handleShowPetDetails();
+      this.model.saveDetails(pet, scrollTo);
+      this.handleOnShowDetails();
     });
 
-    this.subscribe('onReturnPetDetails', ({ scrollTo, isAnimate }) => {
-      this.handleShowPetDetails(scrollTo, isAnimate);
-    });
+    this.subscribe('onReturnPetDetails', ({ scrollTo, isAnimate }) => 
+      this.handleOnShowDetails(scrollTo, isAnimate));
   }
 
-  handleShowPetDetails(scrollTo = 0, isAnimate = true) {
-    this.view.render(this.model.primaryData, this.model.secondaryData, scrollTo, isAnimate);
-    this.view.addListeners(this.handleReturnBack.bind(this), this.handlePetInCart.bind(this));
+  handleOnShowDetails(scrollTo = 0, isAnimate = true) {
+    this.view.render(
+      this.model.primaryDetails, 
+      this.model.secondaryDetails, 
+      scrollTo, 
+      isAnimate
+    );
+
+    this.view.addListeners(
+      this.handleOnReturnBack.bind(this), 
+      this.handleOnBuyPet.bind(this)
+    );
   }
 
-  handleReturnBack() {
+  handleOnReturnBack() {
     const context = ({ scrollTo: this.model.scrollTo, isAnimate: true });
-
     this.publish('onReturnPetCards', context);
   }
 
-  handlePetInCart(isBuy) {
-    const pet = this.model.petDetailsData;
+  handleOnBuyPet(event) {
+    event.target.classList.toggle('is-danger');
+    event.target.textContent = event.target.classList.contains('is-danger') 
+      ? 'IN CART' 
+      : 'BUY';
+
+    const pet = this.model.allDetails;
     const id = pet.id;
+    const isBuy = event.target.textContent !== 'BUY';
 
     this.publish('onUpdateCart', { pet, isBuy })
     this.publish('onChangePetsData', id);

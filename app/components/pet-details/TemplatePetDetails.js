@@ -1,9 +1,8 @@
-import { calcBirthDay, calcAgeMonth } from '../../helpers/index.js';
+import { calcBirthDay, calcAgeMonth } from '../../share/helpers/index.js';
 
 export class TemplatePetDetails {
-  getTemplatePetDetails({ breed, image, species, price, is_buy }, secondary, isAnimate) {
+  getTemplateAllDetails({ breed, image, species, price, is_buy }, secondary, isAnimate) {
     if (species === 'bird') species = 'dove';
-    price = price.toFixed(2);
 
     return `
       <div class="flex flex-row justify-center">
@@ -31,7 +30,7 @@ export class TemplatePetDetails {
                   <i class="fas fa-coins has-text-grey-light"></i>
                 </div>
                 <div class="column">
-                  <span class="is-size-5 has-text-weight-bold has-text-grey">$ ${price}</span>
+                  <span class="is-size-5 has-text-weight-bold has-text-grey">$ ${price.toFixed(2)}</span>
                   <h3 class="is-size-6 has-text-weight-bold has-text-grey-light">PRICE:</h3>
                 </div>
               </div>
@@ -56,7 +55,7 @@ export class TemplatePetDetails {
     `;
   }
   
-  getTemplatePetDetailsSecondary([key, value], idx, isAnimate) {
+  getTemplateSecondaryDetails([key, value], idx, isAnimate) {
     key = key.replace('_', ' ').toUpperCase();
 
     if (key === 'BIRTH DATE') value = `${calcBirthDay(value)} (${calcAgeMonth(value)} mo.)`;
@@ -64,7 +63,7 @@ export class TemplatePetDetails {
 
     return `
       <div class="column is-12 ${isAnimate ? 'animated fadeIn faster' : ''}"
-        style="border-bottom: 1.5px solid #f9f9f9; animation-delay: ${idx / 15}s">
+        style="border-bottom: 1.5px solid #f9f9f9; animation-delay: ${idx / 15}s;">
         <article 
           class="pet-details-sub flex flex-row align-items-center has-padding-5 has-padding-left-25 has-padding-right-25">
           <sectionc class="has-margin-left-15">

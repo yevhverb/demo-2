@@ -11,43 +11,50 @@ export class ControllerPetCards {
     
     this.subscribe('onUpdatePetCards', pets => {
       this.model.updatePetsData(pets);
-      this.handlePetsData(true);
-    });
-
-    this.subscribe('onReturnPetCards', ({ scrollTo, isAnimate }) => {
-      this.handlePetsData(null, scrollTo, isAnimate);
+      this.handleOnChangePage(true);
     });
 
     this.subscribe('onSortPets', type => {
-      this.model.petsSort = type;
-      this.model.petsCurIdx = -20;
-      this.handlePetsData(true);
+      this.model.petsSortType = type;
+      this.model.resetCurIdxPetsData();
+      this.handleOnChangePage(true);
     });
+
+    this.subscribe('onReturnPetCards', ({ scrollTo, isAnimate }) => 
+      this.handleOnChangePage(null, scrollTo, isAnimate));
   }
 
-  handlePetsData(isMore, scrollTo = 0, isAnimate = true) {
+  handleOnChangePage(isMore, scrollTo = 0, isAnimate = true) {
     this.view.render(
-      this.model.getSlicePetsData(isMore), 
-      this.model.calcPagination(),
+      this.model.getPagePetsData(isMore), 
+      this.model.calcPages(),
       scrollTo,
       isAnimate
     );
 
     if (this.model.lengthPetsData) {
       this.view.addListeners(
-        this.handlePetsData.bind(this),
-        this.handlePetInCart.bind(this),
-        this.handlePetDetails.bind(this)
+        this.handleOnChangePage.bind(this),
+        this.handleOnBuyPet.bind(this),
+        this.handleOnDetailsPet.bind(this)
       );
     }
   }
 
-  handlePetDetails(id) {
-    this.publish('onShowPetDetails', this.model.getPetDetails(id));
+  handleOnDetailsPet(btn) {
+    const pet = this.model.getPetDetails(Number(btn.dataset.id));
+    this.publish('onShowPetDetails', pet);
   }
 
-  handlePetInCart(id, isBuy) {
+  handleOnBuyPet(btn) {
+    btn.classList.toggle('is-danger');
+    btn.textContent = btn.classList.contains('is-danger') 
+      ? 'IN CART' 
+      : 'BUY';
+    
+    const id = Number(btn.dataset.id);
     const pet = this.model.getPetDetails(id);
+    const isBuy = btn.textContent !== 'BUY';
 
     this.publish('onUpdateCart', { pet, isBuy })
     this.publish('onChangePetsData', id);

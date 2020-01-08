@@ -8,19 +8,9 @@ export class ViewSearch {
     this.search = this.root.querySelector('.search');
   }
 
-  addListenersSearch(handleSearch) {
-    const form = this.search.querySelector('form');
-    const input = this.search.querySelector('input');
-
-    input.addEventListener('blur', () => {
-      this.root.scrollTo({ top: 0, behavior: 'smooth' });
-      handleSearch(input.value);
-    });
-
-    form.addEventListener('submit', event => {
-      event.preventDefault();
-      input.blur();
-    });
+  addListenersSearch(handleOnSubmit, handleOnSearch) {
+    this.search.querySelector('form').addEventListener('submit', handleOnSubmit);
+    this.search.querySelector('input').addEventListener('blur', handleOnSearch);
   }
 
   render() {

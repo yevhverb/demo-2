@@ -1,22 +1,24 @@
 export class ModelPetDetails {
   constructor() {
-    this.petDetailsData;
-    this.secondaryPetDetailsData;
+    this.allDetails;
+    this._secondaryDetails;
     this.scrollTo;
   }
 
-  saveData(pet, scrollTo) {
-    this.petDetailsData = pet;
+  saveDetails(pet, scrollTo) {
+    this.allDetails = pet;
     this.scrollTo = scrollTo;
   }
 
-  get primaryData() {
-    let { id, breed, image, species, price, is_buy, ...secondary } = this.petDetailsData;
-    this.secondaryPetDetailsData = secondary;
+  get primaryDetails() {
+    let { id, breed, image, species, price, is_buy, ...secondary } = this.allDetails;
+
+    this._secondaryDetails = secondary;
+
     return { breed, image, species, price, is_buy };
   }
 
-  get secondaryData() {
-    return Object.entries(this.secondaryPetDetailsData);
+  get secondaryDetails() {
+    return Object.entries(this._secondaryDetails);
   }
 }

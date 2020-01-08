@@ -9,13 +9,22 @@ export class ControllerSearch {
     this.publish = publish;
 
     this.view.render();
-    this.view.addListenersSearch(this.handleSearch.bind(this));
+    this.view.addListenersSearch(
+      this.handleOnSubmit.bind(this),
+      this.handleOnSearch.bind(this)
+    );
   }
 
-  handleSearch(search) {
+  handleOnSubmit(event) {
+    event.preventDefault();
+    this.view.search.querySelector('input').blur();
+  }
+
+  handleOnSearch(event) {
+    const search = event.target.value;
     this.model.saveSearchCurrent(search); 
 
-    if (this.model.isSearchDifferent) {
+    if (this.model.isDiffSearch) {
       this.publish('onSearch', search.toLowerCase().trim());
     }
   }

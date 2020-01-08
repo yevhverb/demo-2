@@ -8,25 +8,19 @@ export class ViewPetDetails {
     this.container = this.main.querySelector('.container');
   }
 
-  addListeners(handleReturnBack, handlePetToCart) {
-    this.container.querySelector('.btn-back')
-      .addEventListener('click', () => handleReturnBack());
-
-    this.container.querySelector('.btn-buy')
-      .addEventListener('click', event => {
-        event.target.classList.toggle('is-danger');
-        event.target.textContent = event.target.classList.contains('is-danger') ? 'IN CART' : 'BUY';
-        handlePetToCart(event.target.textContent !== 'BUY');
-      });
+  addListeners(handleOnReturnBack, handleOnBuyPet) {
+    this.container.querySelector('.btn-back').addEventListener('click', handleOnReturnBack);
+    this.container.querySelector('.btn-buy').addEventListener('click', handleOnBuyPet);
   }
 
   render(primary, secondary, scrollTo, isAnimate) {
-    secondary = secondary.map((field, idx) => this.templater.getTemplatePetDetailsSecondary(field, idx, isAnimate)).join('');
+    secondary = secondary.map((field, idx) => 
+      this.templater.getTemplateSecondaryDetails(field, idx, isAnimate)).join('');
 
-    this.container.innerHTML = this.templater.getTemplatePetDetails(primary, secondary, isAnimate);
+    this.container.innerHTML = this.templater.getTemplateAllDetails(primary, secondary, isAnimate);
 
-    this.main.scrollTo({ top: scrollTo, behavior: 'auto' });
     this.main.dataset.page = 'pet-details';
+    this.main.scrollTo({ top: scrollTo, behavior: 'auto' });
   }
 
   get mainScrollTop() {

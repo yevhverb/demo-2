@@ -9,30 +9,23 @@ export class ViewPetCards {
     this.container = this.main.querySelector('.container');
   }
 
-  addListeners(handlePetsData, handlePetInCart, handlePetDetails) {
+  addListeners(handleOnChangePage, handleOnBuyPet, handleOnDetailsPet) {
     ['.pag-prev', '.pag-next'].forEach((el, idx) => {
-      this.container.querySelector(el).addEventListener('click', () => {
-        handlePetsData(idx ? true : false);
-      });
+      this.container.querySelector(el).addEventListener('click', () => 
+        handleOnChangePage(idx ? true : false));
     });
 
     this.container.querySelectorAll('.btn-buy').forEach(btn => {
-      btn.addEventListener('click', () => {
-        btn.classList.toggle('is-danger');
-        btn.textContent = btn.classList.contains('is-danger') ? 'IN CART' : 'BUY';
-        handlePetInCart(Number(btn.dataset.id), btn.textContent !== 'BUY');
-      });
+      btn.addEventListener('click', () => handleOnBuyPet(btn));
     });
 
     this.container.querySelectorAll('.btn-details').forEach(btn => {
-      btn.addEventListener('click', () => {
-        handlePetDetails(Number(btn.dataset.id));
-      });
+      btn.addEventListener('click', () => handleOnDetailsPet(btn));
     });
   }
 
   render(pets, pages, scrollTo, isAnim) {
-    let html, cards, pagination, categorie;
+    let html, cards, pagination;
 
     cards = pets.map((pet, idx) => this.templater.getTemplatePetCard(pet, idx, isAnim)).join('');
     pagination = this.templater.getTemplatePagination(pages);

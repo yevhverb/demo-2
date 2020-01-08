@@ -1,41 +1,50 @@
 export class ModelCart {
   constructor() {
     this.petsData = JSON.parse(sessionStorage.getItem('petshop-cart')) || [];
+    this.userData = JSON.parse(sessionStorage.getItem('petshop-order')) || {};
     this.scrollTo;
+    this.isCloseCart;
   }
 
-  updateCart({ pet, isBuy }) {
+  updateCartPetsData({ pet, isBuy }) {
     isBuy
-      ? this.addPetData(pet)
+      ? this.updatePetsData(pet)
       : this.removePetData(pet.id);
   }
 
-  addPetData(pet) {
-    if (this.isNotContainsPetData(pet)) {
+  updatePetsData(pet) {
+    if (this.isExistPetData(pet)) {
       this.petsData.unshift(pet);
-      this.updateLocalStorage();
+      this.updateSessionStorage();
     }
   }
 
   removePetData(id) {
     this.petsData = this.petsData.filter(p => p.id != id);
-    this.updateLocalStorage();
+    this.updateSessionStorage();
   }
 
-  isNotContainsPetData(pet) {
+  isExistPetData(pet) {
     return this.petsData.findIndex(p => p.id === pet.id) === -1;
   }
 
-  updateLocalStorage() {
+  updateUserData({ dataset, value }) {
+    this.userData[dataset.order] = value.trim();
+    this.updateSessionStorage();
+  }
+
+  clearUserData() {
+    this.userData = {};
+    this.updateSessionStorage();
+  }
+
+  updateSessionStorage() {
     sessionStorage.setItem('petshop-cart', JSON.stringify(this.petsData));
+    sessionStorage.setItem('petshop-order', JSON.stringify(this.userData));
   }
 
   getPetDetails(id) {
     return this.petsData.find(p => p.id == id);
-  }
-
-  sendOrder(detailsOrder) {
-    alert(detailsOrder);
   }
 
   get summaryPetsData() {

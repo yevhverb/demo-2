@@ -1,63 +1,50 @@
-import { isValidPhone, isValidEmail } from '../../helpers/index.js';
+import { isValidPhone, isValidEmail } from '../../share/helpers/index.js';
 import { TemplateCart } from './TemplateCart.js';
 
 export class ViewCart {
   constructor() {
     this.templater = new TemplateCart();
     this.root = document.querySelector('.root');
-    this.main = this.root.querySelector('.main');
-    this.cart = this.root.querySelector('.cart');
-    this.cartBtn = this.root.querySelector('.cart-btn');
-    this.cartMain = this.cart.querySelector('.cart-main');
   }
 
-  addListeners(handleShowItems, handleShowOrder, handleCloseCart) {
-    this.cartBtn.addEventListener('click', () => {
-      this.cart.classList.toggle('is-invisible');
-      handleShowItems();
-    });
+  addListeners(handleOnShowItems, handleOnShowOrder, handleOnCloseCart) {
+    const { cart, cartBtn, cartBtnItems, cartBtnOrder } = this.elements;
 
-    this.cart.addEventListener('click', event => {
-      if (event.target.classList.contains('cart')) {
-        this.cart.classList.toggle('is-invisible');
-        handleCloseCart(this.main.dataset.page);
-      }
-    });
-
-    this.cart.querySelector('.cart-btn-items')
-      .addEventListener('click', () => handleShowItems());
-
-    this.cart.querySelector('.cart-btn-order')
-      .addEventListener('click', () => handleShowOrder());
+    cart.addEventListener('click', handleOnCloseCart);
+    cartBtnOrder.addEventListener('click', handleOnShowOrder);
+    cartBtnItems.addEventListener('click', () => handleOnShowItems(false));
+    cartBtn.addEventListener('click', () => handleOnShowItems(true));
   }
 
-  addListenersItems(handleRemoveItem, handleDetailsItem, handleClearCart) {
-    this.cartMain.querySelectorAll('.btn-remove').forEach(btn => {
-      btn.addEventListener('click', () => {
-        handleRemoveItem(btn.dataset.id);
-      });
-    });
+  addListenersItems(handleOnRemoveItem, handleOnDetailsItem, handleOnClearCart) {
+    const { cartMain } = this.elements;
 
-    this.cartMain.querySelectorAll('.btn-details').forEach(btn => {
-      btn.addEventListener('click', () => {
-        handleDetailsItem(btn.dataset.id);
-        this.cart.classList.toggle('is-invisible');
-      });
-    });
+    cartMain.querySelectorAll('.btn-remove').forEach(btn => 
+      btn.addEventListener('click', () => handleOnRemoveItem(btn.dataset.id, true)));
+
+    cartMain.querySelectorAll('.btn-details').forEach(btn => 
+      btn.addEventListener('click', () => handleOnDetailsItem(btn.dataset.id)));
     
-    this.cartMain.querySelector('.cart-btn-clear')
-      .addEventListener('click', () => handleClearCart());
+    cartMain.querySelector('.cart-btn-clear')
+      .addEventListener('click', handleOnClearCart);
   }
 
-  addListenersOrder(petsData, summary, handleOrder) {
-    const cartOrder = this.cart.querySelector('form');
+  addListenersOrder(updateUserData, handleOnOrder) {
+    const form = this.elements.cart.querySelector('form');
 
-    cartOrder.addEventListener('submit', event => {
+    form.querySelectorAll('input').forEach(input => 
+      input.addEventListener('blur', () => updateUserData(input)));
+
+    form.querySelectorAll('textarea').forEach(textarea => 
+      textarea.addEventListener('blur', () => updateUserData(textarea)));
+
+    form.addEventListener('submit', event => {
       event.preventDefault();
 
+      const { getTemplateFieldHelp } = this.templater;
       const details = {};
 
-      cartOrder.querySelectorAll('input').forEach(input => {
+      form.querySelectorAll('input').forEach(input => {
         const help = input.parentNode.nextElementSibling;
         const value = input.value;
         const name = input.dataset.order;
@@ -65,69 +52,82 @@ export class ViewCart {
         help.innerHTML = '';
 
         if (!value) {
-          help.innerHTML = this.templater
-            .getTemplateFieldHelp('This field is required.');
+          help.innerHTML = getTemplateFieldHelp('This field is required.');
           return;
         }
 
         if (name === 'phone' && !isValidPhone(value)) {
-          help.innerHTML = this.templater
-            .getTemplateFieldHelp('Not correctly. Example: +380671234567.');
+          help.innerHTML = getTemplateFieldHelp('Not correctly. Example: +380123456789.');
           return;
         }
           
         if (name === 'email' && !isValidEmail(value)) {
-          help.innerHTML = this.templater
-            .getTemplateFieldHelp('Not correctly. Example: dog@animal.com.');
+          help.innerHTML = getTemplateFieldHelp('Not correctly. Example: dog@animal.com.');
           return;
         }
 
         details[name] = value;
       });
 
-      cartOrder.querySelectorAll('textarea').forEach(textarea => {
+      form.querySelectorAll('textarea').forEach(textarea => {
         const value = textarea.value;
         const name = textarea.dataset.order;
 
         if (value) details[name] = value;
       });
 
-      if (details.name && details.phone && details.email && details.address) {
-        const items = petsData.map((pet, idx) => this.templater.getTemplateOrderItems(pet, idx))
-          .join('\n      ');
-
-        handleOrder(this.templater.getTemplateOrder({summary, ...details}, items));
-
-        cartOrder.reset();
+      if (details.name && details.phone && details.email && details.address) {       
+        handleOnOrder(details);
       }
     });
   }
 
-  updateCartCounter(number) {
-    this.cartBtn.dataset.counter = number || '';
-    this.cartBtn.classList.toggle('is-empty', number < 1);
-  }
-
   renderItems(data, { totalPrice, countItems }, isAnimate) {
+    const { 
+      getTemplateCartItem, 
+      getTemplateCartNoItem, 
+      getTemplateCartSummary, 
+      getTemplateCartItems 
+    } = this.templater;
+
     const items = data.length
-      ? data.map((item, idx) => this.templater.getTemplateCartItem(item, idx, isAnimate)).join('')
-      : this.templater.getTemplateCartNoItem();
+      ? data.map((item, idx) => getTemplateCartItem(item, idx, isAnimate)).join('')
+      : getTemplateCartNoItem();
 
-    const summary = this.templater.getTemplateCartSummary(countItems, totalPrice);
+    const summary = getTemplateCartSummary(countItems, totalPrice);
 
-    this.cartMain.innerHTML = this.templater.getTemplateMainCartItems(items, summary);
+    this.elements.cartMain.innerHTML = getTemplateCartItems(items, summary);
   }
 
-  renderOrder(data) {
-    const { countItems, totalPrice } = data;
-    const withClear = false;
+  renderOrder(sumPetsData, userData) {
+    const { countItems, totalPrice } = sumPetsData;
+    const { getTemplateCartSummary, getTemplateCartOrder } = this.templater;
 
-    const summary = this.templater.getTemplateCartSummary(countItems, totalPrice, withClear);
+    const summary = getTemplateCartSummary(countItems, totalPrice, false);
 
-    this.cartMain.innerHTML = this.templater.getTemplateMainCartOrder(summary, countItems);
+    this.elements.cartMain.innerHTML = getTemplateCartOrder(summary, countItems, userData);
+  }
+
+  textOrder(data, summary, details) {
+    const { getTemplateOrder, getTemplateOrderItems } = this.templater;
+
+    const items = data.map((pet, idx) => getTemplateOrderItems(pet, idx)).join('\n');
+
+    return getTemplateOrder({summary, ...details}, items);
   }
 
   get mainScrollTop() {
-    return this.main.scrollTop;
+    return this.elements.main.scrollTop;
+  }
+
+  get elements() {
+    return {
+      main: this.root.querySelector('.main'),
+      cart: this.root.querySelector('.cart'),
+      cartBtn: this.root.querySelector('.cart-btn'),
+      cartMain: this.root.querySelector('.cart .cart-main'),
+      cartBtnItems: this.root.querySelector('.cart .cart-btn-items'),
+      cartBtnOrder: this.root.querySelector('.cart .cart-btn-order')
+    }
   }
 }
