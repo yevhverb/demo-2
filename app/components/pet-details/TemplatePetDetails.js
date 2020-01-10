@@ -1,4 +1,4 @@
-import { calcBirthDay, calcAgeMonth } from '../../share/helpers/index.js';
+import { calcBirthDay, calcAgeMonth } from '../../utils/index.js';
 
 export class TemplatePetDetails {
   getTemplateAllDetails({ breed, image, species, price, is_buy }, secondary, isAnimate) {

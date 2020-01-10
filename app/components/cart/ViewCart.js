@@ -1,4 +1,4 @@
-import { isValidPhone, isValidEmail } from '../../share/helpers/index.js';
+import { isValidPhone, isValidEmail } from '../../utils/index.js';
 import { TemplateCart } from './TemplateCart.js';
 
 export class ViewCart {

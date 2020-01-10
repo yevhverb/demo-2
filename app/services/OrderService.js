@@ -9,7 +9,7 @@ export class OrderService {
     return data.result.reduce((sellers, s) => {
       sellers[s.message.chat.id] = s.message.chat.id;
       return sellers;
-    }, { '-377489566': -377489566 });
+    }, {});
   }
 
   sendOrder(text) {

@@ -1,4 +1,4 @@
-import { calcAgeMonth } from '../../share/helpers/index.js';
+import { calcAgeMonth } from '../../utils/index.js';
 
 export class TemplateCart {
   getTemplateCartItems(items, summary) {

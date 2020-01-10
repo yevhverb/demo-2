@@ -1,4 +1,4 @@
-import { PublisherSubscriber } from './share/PublisherSubscriber.js';
+import { PublisherSubscriber } from './services/PublisherSubscriber.js';
 import { ControllerRoot } from './components/root/ControllerRoot.js';
 import { ControllerSearch } from './components/search/ControllerSearch.js';
 import { ControllerPetCards } from './components/pet-cards/ControllerPetCards.js';
